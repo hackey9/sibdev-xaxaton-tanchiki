@@ -6,8 +6,9 @@ export class Tank implements ITank {
   y: number = 0;
   direction: Directions = Directions.up;
 
-  constructor(x?: number, y?: number) {
+  constructor(x?: number, y?: number, direction?: Directions) {
     this.x = x ?? this.x;
     this.y = y ?? this.y;
+    this.direction = direction ?? this.direction;
   }
 }
