@@ -1,0 +1,63 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  background: var(--light-green-gradient);
+
+  &Card {
+    max-width: 300px;
+    min-height: 300px;
+    width: 100%;
+    margin: auto;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--white);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  &ReturnButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  &QRReader {
+    width: 250px;
+    height: 250px;
+    margin-top: 20px;
+  }
+
+  &SuccessWrapper {
+    width: 170px;
+    height: 170px;
+    margin: 40px;
+    display: flex;
+    border-radius: 50%;
+    border: 5px solid var(--green);
+  }
+
+  &SuccessIcon {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+
+    * {
+      fill: var(--green);
+    }
+  }
+
+  &ConnectButton {
+    margin-top: 20px;
+  }
+
+  @media screen and (max-width: 520px) {
+    &Card {
+      max-width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+  }
+}
