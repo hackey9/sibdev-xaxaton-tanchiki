@@ -1,39 +1,21 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import './App.css';
-import ClientConnectionPage from './pages/clientConnectionPage/clientConnectionPage';
-import ClientLobbyPage from './pages/clientLobbyPage/clientLobbyPage';
-import ClientQRPage from './pages/clientQRPage/clientQRPage';
-import GamePage from './pages/gamePage';
-import { COLORS } from './pages/homePage/constants';
-import HomePage from './pages/homePage/homePage';
-import ServerConnectionPage from './pages/serverConnectionPage/serverConnectionPage';
+import { usePageRenderer } from './hooks/usePageRenderer';
+import { PagesController } from './stores/pages/PagesController';
 import { PageType } from './types/pages';
-import './styles/index.scss';
+
 import './App.css';
 
-export let page: PageType = PageType.game;
+import './styles/index.scss';
 
-const App = () => {
-  return (
-    <div className="App">
-      {/*{page === PageType.home && <HomePage />}*/}
-      {/*{page === PageType.connectionServer && <ServerConnectionPage />}*/}
-      {/*{page === PageType.connectionClient && <ClientConnectionPage />}*/}
-      {page === PageType.connectionClientQR && <ClientQRPage qrValue="oifowfoihweofhwoei" />}
-      {page === PageType.connectionClientLobby && (
-        <ClientLobbyPage
-          users={[
-            { name: 'user1', color: COLORS[0] },
-            { name: 'user2', color: COLORS[1] },
-          ]}
-        />
-      )}
-      {/*@ts-ignore*/}
-      {page === PageType.connectionServer && <ServerConnectionPage />}
-      {page === PageType.game && <GamePage />}
-    </div>
-  );
-};
+export let page: PageType = PageType.connectionClientLobby;
+
+const App = observer(() => {
+  const [pages] = React.useState(() => new PagesController());
+  const renderPage = usePageRenderer();
+
+  return <div className="App">{renderPage(pages.currentPage)}</div>;
+});
 
 export default App;

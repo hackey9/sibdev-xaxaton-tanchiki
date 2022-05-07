@@ -1,82 +1,82 @@
 .home {
-    min-height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  background: var(--light-green-gradient);
+
+  &Logo {
+    max-width: 100px;
+    max-height: 100px;
+    margin-bottom: 20px;
+    object-fit: contain;
+  }
+
+  &Card {
+    max-width: 300px;
+    min-height: 300px;
+    width: 100%;
+    margin: auto;
+    padding: 40px;
+    position: relative;
     display: flex;
-    background: var(--light-green-gradient);
+    flex-flow: column nowrap;
+    align-items: center;
+    background-color: var(--white);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+  }
 
-    &Logo {
-        max-width: 100px;
-        max-height: 100px;
-        margin-bottom: 20px;
-        object-fit: contain;
+  &CardCorner {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 15px, 15px 100%, 0 100%);
+  }
+
+  &ReturnButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  &LoginContainer {
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+  &Field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: column;
+  }
+
+  &ButtonsContainer {
+    margin-top: auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
+  &Button {
+    &:not(:last-child) {
+      margin-bottom: 10px;
     }
+  }
 
+  @media screen and (max-width: 520px) {
     &Card {
-        max-width: 300px;
-        min-height: 300px;
-        width: 100%;
-        margin: auto;
-        padding: 40px;
-        position: relative;
-        display: flex;
-        flex-flow: column nowrap;
-        align-items: center;
-        background-color: var(--white);
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
-    }
-
-    &CardCorner {
-        width: 100px;
-        height: 100px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        clip-path: polygon(0 0, 100% 0, 100% 15px, 15px 100%, 0 100%);
-    }
-
-    &ReturnButton {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+      max-width: 100%;
+      min-height: 100%;
+      margin: 0;
     }
 
     &LoginContainer {
-        height: 100%;
-        padding: 20px;
-        display: flex;
-        flex-flow: column;
-        justify-content: space-between;
-        flex-grow: 1;
+      max-height: 200px;
+      margin: auto;
     }
-
-    &Field {
-        margin-bottom: 20px;
-        display: flex;
-        flex-flow: column;
-    }
-
-    &ButtonsContainer {
-        margin-top: auto;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-    }
-
-    &Button {
-        &:not(:last-child) {
-            margin-bottom: 10px;
-        }
-    }
-
-    @media screen and (max-width: 520px) {
-        &Card {
-            max-width: 100%;
-            min-height: 100%;
-            margin: 0;
-        }
-
-        &LoginContainer {
-            max-height: 200px;
-            margin: auto;
-        }
-    }
+  }
 }

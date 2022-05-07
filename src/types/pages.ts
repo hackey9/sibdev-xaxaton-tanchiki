@@ -1,4 +1,5 @@
 export enum PageType {
+  test,
   home,
   connectionServer,
   connectionClient,

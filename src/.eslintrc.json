@@ -19,10 +19,10 @@
       }
     ],
     "no-console": "warn",
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "always"],
     "import/order": [
-      "error",
+      "warn",
       {
         "alphabetize": {
           "caseInsensitive": true,
@@ -33,7 +33,7 @@
       }
     ],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "singleQuote": true,
         "semi": true,

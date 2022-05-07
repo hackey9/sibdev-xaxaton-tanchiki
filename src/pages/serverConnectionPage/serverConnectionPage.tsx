@@ -11,10 +11,10 @@ type ServerConnectionPageProps = {
   qrValue: string;
   users: { name: string; color: string }[];
   handleStartGame: VoidFunction;
-  handleGenerate: VoidFunction;
+  // handleGenerate: VoidFunction;
 };
 
-const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, handleStartGame, handleGenerate }) => {
+const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, handleStartGame }) => {
   // TODO: draw users
 
   return (
@@ -33,9 +33,9 @@ const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, h
           <QRCode value={qrValue} />
         </div>
 
-        <Button className={styles.pageGenerateButton} onClick={handleGenerate}>
-          Сгенерировать еще
-        </Button>
+        {/*<Button className={styles.pageGenerateButton} onClick={handleGenerate}>*/}
+        {/*  Сгенерировать еще*/}
+        {/*</Button>*/}
       </div>
     </main>
   );
