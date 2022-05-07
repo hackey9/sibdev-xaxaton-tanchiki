@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
 import Wall from '../../components/wall/wall';
-import { MAP_WIDTH } from '../../consts';
+
 import { Map } from '../../model/map';
 import { Directions, ITank } from '../../types/Tank';
 
 import style from './gamePage.module.scss';
 
-const GamePage = () => {
+const GamePage: FC = () => {
   const [playerTank, setPlayerTank] = useState<ITank>({
-    x: 3,
-    y: 3,
+    x: 2,
+    y: 2,
     direction: Directions.up,
     health: 3,
   });
@@ -91,10 +91,12 @@ const GamePage = () => {
 
   const { brickWalls, concreteWalls, tanks } = map.getMap();
 
+  const objectsMap = [brickWalls, concreteWalls, tanks].flat();
+
   return (
     <main className={style.main}>
       <div className={style.mainMap}>
-        <svg viewBox="0 0 15 16" height={MAP_WIDTH} width={MAP_WIDTH} xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 15 16" height={400} width={400} xmlns="http://www.w3.org/2000/svg">
           <rect height="100%" width="100%" fill="black" />
 
           {brickWalls.map((wall) => (
@@ -110,10 +112,12 @@ const GamePage = () => {
           {new Array(15).fill(0).map((_, index) => (
             <Wall isDestructible={false} x={index} y={15} />
           ))}
-        </svg>
-      </div>
 
-      <Controller setPlayerTank={setPlayerTank} />
+        <Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />
+
+        </svg>
+        <Controller playerTank={playerTank} setPlayerTank={setPlayerTank} objectsMap={objectsMap} />
+      </div>
     </main>
   );
 };
