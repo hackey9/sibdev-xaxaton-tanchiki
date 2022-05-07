@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import QRCode from 'react-qr-code';
 
 import Button from '../../components/button/button';
@@ -6,8 +7,15 @@ import ReturnButton from '../../components/returnButton/returnButton';
 
 import styles from './serverConnectionPage.module.scss';
 
-const ServerConnectionPage = () => {
-  const qrValue = 'wefwefwef';
+type ServerConnectionPageProps = {
+  qrValue: string;
+  users: { name: string; color: string }[];
+  handleStartGame: VoidFunction;
+  handleGenerate: VoidFunction;
+};
+
+const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, handleStartGame, handleGenerate }) => {
+  // TODO: draw users
 
   return (
     <main className={styles.page}>
@@ -16,7 +24,7 @@ const ServerConnectionPage = () => {
 
         <h1>Подключение к игре</h1>
 
-        <Button>Начать игру</Button>
+        <Button onClick={handleStartGame}>Начать игру</Button>
 
         <p>QR-код должен отсканировать один из участников, чтобы присоединиться к игре.</p>
         <p>Начните игру, когда присоединяться все участники.</p>
@@ -25,7 +33,9 @@ const ServerConnectionPage = () => {
           <QRCode value={qrValue} />
         </div>
 
-        <Button className={styles.pageGenerateButton}>Сгенерировать еще</Button>
+        <Button className={styles.pageGenerateButton} onClick={handleGenerate}>
+          Сгенерировать еще
+        </Button>
       </div>
     </main>
   );

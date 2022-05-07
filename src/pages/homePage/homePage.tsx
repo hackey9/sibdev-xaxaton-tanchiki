@@ -1,16 +1,15 @@
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, FC, useState } from 'react';
 
 import Button from '../../components/button/button';
-import { ButtonVariants } from '../../components/button/types';
-import ReturnButton from '../../components/returnButton/returnButton';
 
-import { COLORS } from './constants';
 import styles from './homePage.module.scss';
 
-// TODO: replace with state
-const userNumber = 0;
+type HomePageProps = {
+  handleCreateGame: (name: string) => void;
+  handleConnect: (name: string) => void;
+};
 
-const HomePage = () => {
+const HomePage: FC<HomePageProps> = ({ handleCreateGame, handleConnect }) => {
   const [name, setName] = useState('');
 
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -22,10 +21,6 @@ const HomePage = () => {
   return (
     <main className={styles.home}>
       <div className={styles.homeCard}>
-        <div className={styles.homeCardCorner} style={{ backgroundColor: COLORS[userNumber] }} />
-
-        <ReturnButton variant={ButtonVariants.pure} className={styles.homeReturnButton} />
-
         <img src="https://i.ytimg.com/vi/culwxTEFMYg/maxresdefault.jpg" alt="logo" className={styles.homeLogo} />
 
         <div className={styles.homeLoginContainer}>
@@ -35,10 +30,10 @@ const HomePage = () => {
           </div>
 
           <div className={styles.homeButtonsContainer}>
-            <Button className={styles.homeButton} disabled={!hasName}>
+            <Button className={styles.homeButton} disabled={!hasName} onClick={() => handleCreateGame(name)}>
               Создать игру
             </Button>
-            <Button className={styles.homeButton} disabled={!hasName}>
+            <Button className={styles.homeButton} disabled={!hasName} onClick={() => handleConnect(name)}>
               Подключиться к игре
             </Button>
           </div>

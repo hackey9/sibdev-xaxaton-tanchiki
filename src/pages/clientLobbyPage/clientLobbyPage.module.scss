@@ -24,10 +24,26 @@
     right: 20px;
   }
 
-  &QRReader {
-    width: 250px;
-    height: 250px;
-    margin-top: 20px;
+  &UsersList {
+    margin-bottom: 20px;
+  }
+
+  &UserContainer {
+    position: relative;
+    background-color: rgba(116, 178, 95, 0.1);
+
+    & > p {
+      margin: 8px;
+    }
+  }
+
+  &UserContainerCorner {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 5px, 5px 100%, 0 100%);
   }
 
   @media screen and (max-width: 520px) {
