@@ -1,0 +1,27 @@
+.button {
+  padding: 8px 16px;
+  background-color: var(--green);
+  color: var(--white);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 10px, 100% 100%, 10px 100%, 0% calc(100% - 10px), 0% 100%);
+
+  &:hover {
+    background-color: var(--light-green);
+  }
+
+  &:active {
+    background-color: var(--dark-green);
+  }
+
+  &Pure {
+    background-color: transparent;
+    color: var(--dark-green);
+
+    &:hover, &:active {
+      background-color: transparent;
+    }
+  }
+}
