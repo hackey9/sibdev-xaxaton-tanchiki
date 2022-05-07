@@ -3,3 +3,7 @@ export interface IBlock {
   x: number;
   y: number;
 }
+
+export interface BrickWall extends IBlock {
+  isDestructed: boolean;
+}
