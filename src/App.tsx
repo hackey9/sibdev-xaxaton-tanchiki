@@ -4,14 +4,15 @@ import './App.css';
 import ClientConnectionPage from './pages/clientConnectionPage/clientConnectionPage';
 import ClientLobbyPage from './pages/clientLobbyPage/clientLobbyPage';
 import ClientQRPage from './pages/clientQRPage/clientQRPage';
+import GamePage from './pages/gamePage';
 import { COLORS } from './pages/homePage/constants';
 import HomePage from './pages/homePage/homePage';
 import ServerConnectionPage from './pages/serverConnectionPage/serverConnectionPage';
 import { PageType } from './types/pages';
-
 import './styles/index.scss';
+import './App.css';
 
-export let page: PageType = PageType.connectionClientLobby;
+export let page: PageType = PageType.game;
 
 const App = () => {
   return (
@@ -28,6 +29,9 @@ const App = () => {
           ]}
         />
       )}
+      {/*@ts-ignore*/}
+      {page === PageType.connectionServer && <ServerConnectionPage />}
+      {page === PageType.game && <GamePage />}
     </div>
   );
 };
