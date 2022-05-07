@@ -3,4 +3,4 @@ const windowHeight = window.innerHeight;
 
 export const MAP_WIDTH = Math.min(windowHeight, windowWidth);
 
-export const MAP_SIZE = 15;
+export const MAP_SIZE = 16;

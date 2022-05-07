@@ -20,6 +20,7 @@
 .stickWrapper {
   width: 150px;
   height: 150px;
+  margin-left: 60px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);

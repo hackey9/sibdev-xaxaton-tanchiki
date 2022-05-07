@@ -9,30 +9,6 @@ import { Directions, ITank } from '../../types/Tank';
 
 import style from './gamePage.module.scss';
 
-const dummyPlayersTanksData = [
-  {
-    x: 5,
-    y: 8,
-    direction: Directions.down,
-    health: 3,
-    id: 1,
-  },
-  {
-    x: 4,
-    y: 12,
-    direction: Directions.left,
-    health: 3,
-    id: 2,
-  },
-  {
-    x: 13,
-    y: 4,
-    direction: Directions.right,
-    health: 3,
-    id: 3,
-  },
-];
-
 const GamePage = () => {
   const [playerTank, setPlayerTank] = useState<ITank>({
     x: 3,
@@ -115,32 +91,27 @@ const GamePage = () => {
 
   const { brickWalls, concreteWalls, tanks } = map.getMap();
 
-  const nearestObject = map.getNearestObject(tanks[0]);
-
   return (
     <main className={style.main}>
-      <svg viewBox="0 0 15 15" height={MAP_WIDTH} width={MAP_WIDTH} xmlns="http://www.w3.org/2000/svg">
-        <rect height="100%" width="100%" fill="black" />
+      <div className={style.mainMap}>
+        <svg viewBox="0 0 15 16" height={MAP_WIDTH} width={MAP_WIDTH} xmlns="http://www.w3.org/2000/svg">
+          <rect height="100%" width="100%" fill="black" />
 
-        {brickWalls.map((wall) => (
-          <BrickWall {...wall} />
-        ))}
-        {concreteWalls.map((wall) => (
-          <Wall {...wall} />
-        ))}
-        {tanks.map((tank) => (
-          <Tank {...tank} />
-        ))}
+          {brickWalls.map((wall) => (
+            <BrickWall {...wall} />
+          ))}
+          {concreteWalls.map((wall) => (
+            <Wall {...wall} />
+          ))}
+          {tanks.map((tank) => (
+            <Tank {...tank} />
+          ))}
 
-        {nearestObject && (
-          <rect x={nearestObject.x + 0.25} y={nearestObject.y + 0.25} width={0.5} height={0.5} fill="red" />
-        )}
-
-        {/*<Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />*/}
-        {/*{dummyPlayersTanksData.map((tank) => (*/}
-        {/*  <Tank key={tank.id} direction={tank.direction} health={tank.health} x={tank.x} y={tank.y} />*/}
-        {/*))}*/}
-      </svg>
+          {new Array(15).fill(0).map((_, index) => (
+            <Wall isDestructible={false} x={index} y={15} />
+          ))}
+        </svg>
+      </div>
 
       <Controller setPlayerTank={setPlayerTank} />
     </main>
