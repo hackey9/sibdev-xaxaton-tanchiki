@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 
 import { BasePage } from './BasePage';
-import { MainPageStore } from './MainPageStore';
+import { MainPageStore } from './main/MainPageStore';
 
 export class PagesController {
   currentPage: BasePage;
@@ -16,6 +16,8 @@ export class PagesController {
   }
 
   next(page: BasePage) {
+    this.currentPage.dispose();
     this.currentPage = page;
+    this.currentPage.init();
   }
 }

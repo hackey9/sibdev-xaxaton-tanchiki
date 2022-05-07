@@ -10,10 +10,14 @@ const renderPageVisitor: IPageVisitor<React.ReactElement> = {
   withMainPage: (page) => <HomePage handleConnect={page.onPlayAsClient} handleCreateGame={page.onPlayAsServer} />,
   withServerLobbyQr: (page) => (
     <>
-      {page.showQR ? (
-        <ClientConnectionPage handleReturn={page.onBack} handleQRResult={page.onClientCodeScan} />
+      {!page.showQR ? (
+        <ServerConnectionPage
+          users={page.players}
+          handleStartGame={page.onStartGame}
+          qrValue={page.qrCodeString || void 0}
+        />
       ) : (
-        <ServerConnectionPage users={page.players} handleStartGame={page.onStartGame} qrValue={page.qrCodeString} />
+        <ClientConnectionPage handleReturn={page.onBack} handleQRResult={page.onClientCodeScan} />
       )}
     </>
   ),

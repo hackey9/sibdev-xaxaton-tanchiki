@@ -1,25 +1,26 @@
-import { makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { LobbyPlayer } from '../../../model/lobby';
+import { LocalServer } from '../../../model/client-server';
+import { __stubGameStateReducer } from '../../../model/game-state';
 import { BasePage, IPageVisitor } from '../BasePage';
 import { PagesController } from '../PagesController';
 
 export class ServerLobbyStore extends BasePage {
-  private readonly hostUsername: string;
+  localServer: LocalServer;
+  showQR: boolean;
+  players: any[];
 
-  players: LobbyPlayer[];
-  newPlayer: LobbyPlayer;
-
-  constructor(pages: PagesController, hostUsername: string, newPlayer: LobbyPlayer, players?: LobbyPlayer[]) {
+  constructor(pages: PagesController, hostUsername: string) {
     super(pages);
 
-    this.hostUsername = hostUsername;
-    this.newPlayer = newPlayer;
-    this.players = players || [];
+    this.localServer = new LocalServer(hostUsername, __stubGameStateReducer);
 
     makeObservable(this, {
-      players: observable,
-      newPlayer: observable,
+      showQR: observable,
+      onBack: action,
+      onClientCodeScan: action,
+      onStartGame: action,
+      qrCodeString: computed,
     });
   }
 
@@ -28,6 +29,18 @@ export class ServerLobbyStore extends BasePage {
   }
 
   onBack() {
-    // TODO вернуться к показу QR
+    this.showQR = true;
+  }
+
+  get qrCodeString(): string | null {
+    // TODO
+  }
+
+  async *onClientCodeScan(qrResult: string): Promise<void> {
+    // TODO
+  }
+
+  onStartGame(): void {
+    // TODO: сообщить всем игрокам о начале игры. перейти на страницу игры.
   }
 }

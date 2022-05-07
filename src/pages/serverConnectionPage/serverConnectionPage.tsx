@@ -8,10 +8,9 @@ import ReturnButton from '../../components/returnButton/returnButton';
 import styles from './serverConnectionPage.module.scss';
 
 type ServerConnectionPageProps = {
-  qrValue: string;
-  users: { name: string; color: string }[];
+  qrValue?: string;
+  users: []; // TODO
   handleStartGame: VoidFunction;
-  // handleGenerate: VoidFunction;
 };
 
 const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, handleStartGame }) => {
@@ -29,13 +28,7 @@ const ServerConnectionPage: FC<ServerConnectionPageProps> = ({ qrValue, users, h
         <p>QR-код должен отсканировать один из участников, чтобы присоединиться к игре.</p>
         <p>Начните игру, когда присоединяться все участники.</p>
 
-        <div className={styles.pageQRWrapper}>
-          <QRCode value={qrValue} />
-        </div>
-
-        {/*<Button className={styles.pageGenerateButton} onClick={handleGenerate}>*/}
-        {/*  Сгенерировать еще*/}
-        {/*</Button>*/}
+        <div className={styles.pageQRWrapper}>{qrValue && <QRCode value={qrValue} />}</div>
       </div>
     </main>
   );

@@ -3,11 +3,17 @@ export const rtcDataChannelInit: RTCDataChannelInit = { ordered: true };
 export const rtcDataChannelName = 'data-channel';
 export const rtcOfferOptions: RTCOfferOptions = {};
 
-export class PlayerConnection {
+export class PlayerConnection<TSend, TReceive> {
   private connection!: RTCPeerConnection;
   private dataChannel!: RTCDataChannel;
   private iceCandidates: RTCIceCandidate[] = [];
   private gatheringStateReadyPromise!: Promise<void>;
+
+  onMessage?: (message: TReceive) => void;
+
+  send(message: TSend): void {
+    this.dataChannel.send(JSON.stringify(message));
+  }
 
   initConnection() {
     this.connection = new RTCPeerConnection(rtcPeerConfig);
