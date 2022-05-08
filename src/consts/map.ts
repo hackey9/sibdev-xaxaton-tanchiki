@@ -1,10 +1,8 @@
 export const MAP = {
   blocks: [
-    { position: { x: 0, y: 10 }, destroyable: true },
-    { position: { x: 7, y: 1 }, destroyable: true },
-    { position: { x: 9, y: 1 }, destroyable: true },
-    { position: { x: 11, y: 1 }, destroyable: true },
-    { position: { x: 13, y: 1 }, destroyable: true },
+    { position: { x: 1, y: 1 }, destroyable: true },
+    { position: { x: 1, y: 2 }, destroyable: true },
+    { position: { x: 1, y: 3 }, destroyable: true },
     { position: { x: 1, y: 4 }, destroyable: true },
 
     { position: { x: 1, y: 11 }, destroyable: true },
@@ -55,6 +53,7 @@ export const MAP = {
     { position: { x: 13, y: 12 }, destroyable: true },
     { position: { x: 13, y: 13 }, destroyable: true },
     { position: { x: 13, y: 14 }, destroyable: true },
+
     { position: { x: 6, y: 2 }, destroyable: false },
     { position: { x: 6, y: 3 }, destroyable: false },
     { position: { x: 12, y: 13 }, destroyable: false },

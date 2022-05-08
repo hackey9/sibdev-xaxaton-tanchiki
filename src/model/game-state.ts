@@ -84,11 +84,11 @@ export function __stubGameStateReducer(
         }
 
         if ('destroyable' in nearestObject && (nearestObject as Block).destroyable) {
+          const newBlocks = state.blocks.filter((block) => block !== nearestObject);
+
           return {
             ...state,
-            blocks: state.blocks.filter(
-              ({ position }) => position.x !== nearestObject.position.x && position.y !== nearestObject.position.y
-            ),
+            blocks: newBlocks,
           };
         }
       }
@@ -133,7 +133,6 @@ export function __stubGameStateReducer(
           ),
         };
       }
-      break;
   }
   return state;
 }
