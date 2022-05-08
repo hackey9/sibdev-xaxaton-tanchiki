@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
@@ -17,6 +17,11 @@ interface GamePageProps {
 
 const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
   const { tanks, blocks } = server.state;
+
+  useEffect(() => {
+    // @ts-ignore
+    window.server = server;
+  }, [server]);
 
   return (
     <main className={style.main}>
