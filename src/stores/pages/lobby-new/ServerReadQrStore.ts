@@ -42,6 +42,7 @@ export class ServerReadQrStore extends BasePage {
       await this.peer.connectedPromise;
       yield;
     } catch (e) {
+      alert('Всё тлен!');
       debugger;
     }
 
