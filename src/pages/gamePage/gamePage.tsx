@@ -60,7 +60,7 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
             <Wall x={0} y={index} />
           ))}
         </svg>
-        <HealthsBar health={tanks[0].health} />
+        <HealthsBar health={tanks[0]?.health || 10} />
         <Controller onFire={onFire} onMove={onMove} />
       </div>
     </main>

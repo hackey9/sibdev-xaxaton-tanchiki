@@ -1,8 +1,10 @@
 import { action, makeObservable } from 'mobx';
 
+import { LocalServer } from '../../../model/client-server';
+import { __stubGameStateReducer } from '../../../model/game-state';
 import { BasePage, IPageVisitor } from '../BasePage';
-import { ClientConnectingStore } from '../lobby/ClientConnectingStore';
-import { ServerConnectingStore } from '../lobby/ServerConnectingStore';
+import { ClientScanQrStore } from '../lobby-new/ClientScanQrStore';
+import { ServerShowQrStore } from '../lobby-new/ServerShowQrStore';
 import { PagesController } from '../PagesController';
 
 export class MainPageStore extends BasePage {
@@ -16,11 +18,12 @@ export class MainPageStore extends BasePage {
   }
 
   onPlayAsServer(username: string) {
-    this.next(new ServerConnectingStore(this.pages, username));
+    const server = new LocalServer(username, __stubGameStateReducer);
+    this.next(new ServerShowQrStore(this.pages, server));
   }
 
   onPlayAsClient(username: string) {
-    this.next(new ClientConnectingStore(this.pages));
+    this.next(new ClientScanQrStore(this.pages));
   }
 
   accept<R>(visitor: IPageVisitor<R>): R {

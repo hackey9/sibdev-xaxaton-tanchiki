@@ -26,10 +26,10 @@ const renderPageVisitor: IPageVisitor<React.ReactElement> = {
   ),
   withClientConnectingPage: (page) => (
     <>
-      {!page.showQR ? (
+      {!page.showAnswerQR ? (
         <ClientConnectionPage handleReturn={page.onBack} handleQRResult={page.onQrRead} />
       ) : (
-        <ClientQRPage qrValue={page.qrCodeString} />
+        <ClientQRPage qrValue={page.answerQrCodeString} />
       )}
     </>
   ),
@@ -41,6 +41,31 @@ const renderPageVisitor: IPageVisitor<React.ReactElement> = {
   withGamePage: (page) => (
     <>
       <GamePage onFire={page.fire} server={page.server} onMove={page.move} />
+    </>
+  ),
+  withServer1: (page) => (
+    <>
+      <ServerConnectionPage
+        users={[]}
+        handleStartGame={page.onStartGame}
+        qrValue={page.offerQr}
+        handleScan={page.onNext}
+      />
+    </>
+  ),
+  withServer2: (page) => (
+    <>
+      <ClientConnectionPage handleReturn={() => {}} handleQRResult={page.onQrFromClient} />
+    </>
+  ),
+  withClient1: (page) => (
+    <>
+      <ClientConnectionPage handleReturn={() => {}} handleQRResult={page.onQrFromServer} />
+    </>
+  ),
+  withClient2: (page) => (
+    <>
+      <ClientQRPage qrValue={page.answerQr} />
     </>
   ),
 };

@@ -1,4 +1,4 @@
-import { action, flow, makeObservable, observable, runInAction } from 'mobx';
+import { action, flow, makeObservable, observable } from 'mobx';
 
 import { LocalServer } from '../../../model/client-server';
 import { PlayerConnection } from '../../../model/connections';
@@ -34,24 +34,35 @@ export class ServerConnectingStore extends BasePage {
     });
   }
 
+  // При переходе на страницу
   async init() {
+    console.log('init');
     this.createPeer();
   }
 
   async *createPeer() {
+    // 1. создать соединение, закешировать его
     const peer = new PlayerConnection();
+    this.lastPeer = peer;
     peer.initConnection();
     peer.createDataChannel();
-    console.log('server connection created');
+    console.log('peer handle', peer);
 
-    const offer = await peer.createLocalOffer();
-    const ices = await peer.getIceCandidates();
-    console.log('server created offer & ices');
-    yield;
+    // 2. создаём оффер и кандидатов
+    try {
+      const offer = await peer.createLocalOffer();
+      const ices = await peer.getIceCandidates();
+      yield;
+      console.log('оффер и кандидаты от сервера', { offer, ices });
 
-    this.qrCodeString = createQrCode<TOfferQrCode>({ offer, ices });
-    console.log('qr code', this.qrCodeString);
-    this.lastPeer = peer;
+      // 3. Создаём QR-код
+      this.qrCodeString = createQrCode<TOfferQrCode>({ offer, ices });
+
+      console.log('server created offer & ices');
+    } catch (e) {
+      console.log('ошибка при создании оффера', e);
+      return;
+    }
   }
 
   accept<R>(visitor: IPageVisitor<R>): R {
@@ -65,7 +76,7 @@ export class ServerConnectingStore extends BasePage {
   async *onClientCodeScan(qrCode: string): Promise<void> {
     const qrData = parseQrCode<TAnswerQrCode>(qrCode);
 
-    console.log('qr data', qrData);
+    console.log('scan client qr data', qrData);
     const peer = this.lastPeer!;
     await peer.setRemoteAnswer(qrData.answer);
     await peer.setIceCandidates(qrData.ices);

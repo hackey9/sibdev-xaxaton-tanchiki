@@ -18,7 +18,7 @@
         "ignoreComments": true
       }
     ],
-    "no-console": "warn",
+    "no-console": "off",
     "quotes": ["warn", "single"],
     "semi": ["warn", "always"],
     "import/order": [

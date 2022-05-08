@@ -9,17 +9,17 @@ import { PagesController } from '../PagesController';
 import { ClientLobbyStore } from './ClientLobbyStore';
 
 export class ClientConnectingStore extends BasePage {
-  showQR: Boolean;
-  qrCodeString?: string;
+  showAnswerQR: Boolean;
+  answerQrCodeString?: string;
   private remoteServer?: RemoteServer;
 
   constructor(pages: PagesController) {
     super(pages);
-    this.showQR = false;
+    this.showAnswerQR = false;
 
     makeObservable(this, {
-      showQR: observable,
-      qrCodeString: observable,
+      showAnswerQR: observable,
+      answerQrCodeString: observable,
       onBack: action.bound,
       onQrRead: flow.bound,
     });
@@ -30,29 +30,55 @@ export class ClientConnectingStore extends BasePage {
   }
 
   onBack() {
-    this.showQR = false;
+    this.showAnswerQR = false;
   }
 
+  /**
+   * Клиент считывает QR-код сервера
+   */
   async *onQrRead(qrCode: string) {
+    // 1. читаем данные из QR-кода
+    this.showAnswerQR = true;
     const qrData = parseQrCode<TOfferQrCode>(qrCode);
-    this.showQR = true;
 
+    console.log('данные из QR-кода', qrData);
+
+    // 2. создаём соединение. не подключаем никакие каналы.
     const peer = new PlayerConnection();
     peer.initConnection();
-    console.log('client connection created');
-    await peer.setRemoteOffer(qrData.offer);
-    await peer.setIceCandidates(qrData.ices);
-    console.log('set remote offer & ices');
-    const answer = await peer.createLocalAnswer();
-    const ices = await peer.getIceCandidates();
-    console.log('set local answer & ices');
-    yield;
 
-    this.qrCodeString = createQrCode<TAnswerQrCode>({ answer, ices });
-    console.log('qr code', this.qrCodeString);
+    console.log('connection handle', peer);
 
+    // 3. устанавливаем удалённые данные
+    try {
+      await peer.setRemoteOffer(qrData.offer);
+      await peer.setIceCandidates(qrData.ices);
+      yield;
+    } catch (e) {
+      console.log('Ошибка при установке офферов/кандидатов', e);
+      return;
+    }
+
+    // 4. создаём локальные данные, создаём qr-код
+    try {
+      const answer = await peer.createLocalAnswer();
+      const ices = await peer.getIceCandidates();
+      console.log('данные для сервера', { answer, ices });
+
+      // 5. создаём qr-код
+      this.answerQrCodeString = createQrCode<TAnswerQrCode>({ answer, ices });
+
+      // 6. ждём полного подключения
+      await peer.connectedPromise;
+      console.log('соединение установлено успешно. канал связи создан');
+    } catch (e) {
+      console.log('ошибка при подключении', e);
+      return;
+    }
+
+    // 6. создаём сервер
     this.remoteServer = new RemoteServer(peer);
-    await this.remoteServer.connectedPromise;
+
     console.log('connected');
 
     this.next(new ClientLobbyStore(this.pages, this.remoteServer!));

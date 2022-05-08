@@ -22,13 +22,11 @@ export class RemoteServer implements IServer {
   connectedPromise: Promise<void>;
   startedPromise!: Promise<void>;
 
-  onConnect?: VoidFunction;
   private readonly resolveStart: VoidFunction;
 
   constructor(peer: PlayerConnection<TPlayerAction, TServerResponse>) {
     makeObservable(this, {
       state: observable,
-      onConnect: observable,
       onMessage: action.bound,
     });
 

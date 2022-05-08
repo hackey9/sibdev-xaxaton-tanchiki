@@ -7,6 +7,7 @@ export function parseQrCode<T>(code: string): T {
 }
 
 export type TOfferQrCode = {
+  // TODO: id
   offer: RTCSessionDescriptionInit;
   ices: RTCIceCandidate[];
 };
