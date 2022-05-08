@@ -1,15 +1,16 @@
+import BrickWall from '../components/brickWall/brickWall';
 import { Directions, ITank } from '../types/Tank';
-import { BrickWall, IBlock } from '../types/Wall';
+import { IBlock } from '../types/Wall';
 
 import { Tank } from './Tank';
 
 export class Map {
-  private brickWalls: BrickWall[];
+  private brickWalls: any[];
   private concreteWalls: IBlock[];
   private tanks: ITank[] = [];
   private mapSize: number;
 
-  constructor(brickWalls: BrickWall[], concreteWall: IBlock[], playersNumber: number, mapSize: number) {
+  constructor(brickWalls: any[], concreteWall: IBlock[], playersNumber: number, mapSize: number) {
     this.brickWalls = brickWalls;
     this.concreteWalls = concreteWall;
     this.mapSize = mapSize;
