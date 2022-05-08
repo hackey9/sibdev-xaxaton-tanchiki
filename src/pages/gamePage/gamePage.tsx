@@ -17,7 +17,7 @@ interface GamePageProps {
 }
 
 const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
-  const { tanks, blocks } = server.state;
+  const { tanks, blocks, isEnd } = server.state;
 
   useEffect(() => {
     // @ts-ignore
@@ -62,6 +62,7 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
         </svg>
         <HealthsBar health={tanks[0]?.health || 10} />
         <Controller onFire={onFire} onMove={onMove} />
+        {isEnd && <div className={style.endgame}>Endgame</div>}
       </div>
     </main>
   );

@@ -86,6 +86,22 @@ export function __stubGameStateReducer(
         const nearestObject = allMapObjects[nearestObjectIndex];
 
         if ('health' in nearestObject && (nearestObject as Tank).health) {
+          if (nearestObject.health === 1) {
+            const filteredTanks = state.tanks.filter((tank) => tank.playerId !== nearestObject.playerId);
+
+            return {
+              ...state,
+              tanks: filteredTanks.map((tank) => {
+                if (currentTank.playerId === tank.playerId) {
+                  return { ...tank, lastShootTime: new Date().getTime() };
+                }
+
+                return tank;
+              }),
+              isEnd: filteredTanks.length <= 1,
+            };
+          }
+
           return {
             ...state,
             tanks: state.tanks.map((tank) => {

@@ -5,8 +5,20 @@
   align-items: center;
   row-gap: 30px;
   background-color: #222;
+  position: relative;
 
   &Map {
     margin-bottom: 20px;
   }
+}
+
+.endgame {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(213, 70, 70);
 }
