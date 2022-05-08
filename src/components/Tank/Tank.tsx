@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { Directions, ITank } from '../../types/Tank';
 
-const Tank: FC<ITank> = observer(({ x, y, direction }) => {
+const Tank: FC<ITank> = observer(({ x, y, direction, color }) => {
   const coords = useMemo(() => {
     switch (direction) {
       case Directions.down:
@@ -54,13 +54,13 @@ const Tank: FC<ITank> = observer(({ x, y, direction }) => {
 
   return (
     <>
-      <polygon points={coords?.figure} fill="orange" />
+      <polygon points={coords?.figure} fill={color} />
       <line
         x1={coords?.muzzle.x1}
         y1={coords?.muzzle.y1}
         x2={coords?.muzzle.x2}
         y2={coords?.muzzle.y2}
-        stroke="orange"
+        stroke={color}
         strokeWidth="0.25"
       />
     </>

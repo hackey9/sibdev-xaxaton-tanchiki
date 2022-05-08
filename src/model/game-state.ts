@@ -11,6 +11,7 @@ type Tank = {
   lastShootTime: number;
   health: number;
   direction: Directions;
+  color: string;
 };
 
 type Block = {

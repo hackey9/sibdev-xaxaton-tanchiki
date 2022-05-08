@@ -100,22 +100,23 @@ export class LocalServer implements IServer {
 
   private getInitialGameState(): TGameState {
     const tanksCoordinates = [
-      { x: 3, y: 1, direction: Directions.right },
-      { x: 3, y: MAP_SIZE - 2, direction: Directions.down },
-      { x: MAP_SIZE - 2, y: 1, direction: Directions.left },
-      { x: 8, y: MAP_SIZE - 6, direction: Directions.up },
+      { x: 3, y: 1, direction: Directions.right, color: 'red' },
+      { x: 3, y: MAP_SIZE - 2, direction: Directions.down, color: 'white' },
+      { x: MAP_SIZE - 2, y: 1, direction: Directions.left, color: 'blue' },
+      { x: 8, y: MAP_SIZE - 6, direction: Directions.up, color: 'yellow' },
     ];
 
     const playersNumber = this.clients.length;
     const TANK_HEALTH = 10;
 
-    const tanks = tanksCoordinates.slice(0, playersNumber).map(({ x, y, direction }, index) => ({
+    const tanks = tanksCoordinates.slice(0, playersNumber).map(({ x, y, direction, color }, index) => ({
       position: { x, y },
       playerId: this.clients[index].playerId,
       direction,
       health: TANK_HEALTH,
       lastMoveTime: 0,
       lastShootTime: 0,
+      color: color,
     }));
 
     const coords = tanksCoordinates[playersNumber];
@@ -126,6 +127,7 @@ export class LocalServer implements IServer {
       health: TANK_HEALTH,
       lastMoveTime: 0,
       lastShootTime: 0,
+      color: 'yellow',
     });
 
     return { blocks: MAP.blocks, isEnd: false, tanks };

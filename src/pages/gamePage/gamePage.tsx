@@ -43,8 +43,8 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
             .map(({ position }) => (
               <Wall x={position.x + 1} y={position.y + 1} />
             ))}
-          {tanks.map(({ position, direction, health }) => (
-            <Tank x={position.x + 1} y={position.y + 1} health={health} direction={direction} />
+          {tanks.map(({ position, direction, health, color }) => (
+            <Tank x={position.x + 1} y={position.y + 1} health={health} direction={direction} color={color} />
           ))}
 
           {new Array(16).fill(0).map((_, index) => (

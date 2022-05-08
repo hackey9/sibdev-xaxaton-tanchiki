@@ -10,4 +10,5 @@ export interface ITank {
   x: number;
   y: number;
   health: number;
+  color: string;
 }
