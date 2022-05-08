@@ -42,11 +42,15 @@ export class ServerConnectingStore extends BasePage {
     const peer = new PlayerConnection();
     peer.initConnection();
     peer.createDataChannel();
+    console.log('server connection created');
+
     const offer = await peer.createLocalOffer();
     const ices = await peer.getIceCandidates();
+    console.log('server created offer & ices');
     yield;
 
     this.qrCodeString = createQrCode<TOfferQrCode>({ offer, ices });
+    console.log('qr code', this.qrCodeString);
     this.lastPeer = peer;
   }
 
@@ -61,17 +65,20 @@ export class ServerConnectingStore extends BasePage {
   async *onClientCodeScan(qrCode: string): Promise<void> {
     const qrData = parseQrCode<TAnswerQrCode>(qrCode);
 
+    console.log('qr data', qrData);
     const peer = this.lastPeer!;
     await peer.setRemoteAnswer(qrData.answer);
     await peer.setIceCandidates(qrData.ices);
+    console.log('set remote answer & ices');
+    yield;
 
     const playerId = newPlayerId();
     this.localServer.addRemoteClient(playerId, peer);
-
-    yield;
     this.qrCodeString = void 0;
     this.lastPeer = void 0;
     this.showQR = true;
+    console.log('created remote client go next scan');
+
     await this.createPeer();
   }
 

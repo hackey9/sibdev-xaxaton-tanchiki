@@ -39,16 +39,21 @@ export class ClientConnectingStore extends BasePage {
 
     const peer = new PlayerConnection();
     peer.initConnection();
+    console.log('client connection created');
     await peer.setRemoteOffer(qrData.offer);
     await peer.setIceCandidates(qrData.ices);
-
+    console.log('set remote offer & ices');
     const answer = await peer.createLocalAnswer();
     const ices = await peer.getIceCandidates();
+    console.log('set local answer & ices');
     yield;
 
     this.qrCodeString = createQrCode<TAnswerQrCode>({ answer, ices });
+    console.log('qr code', this.qrCodeString);
+
     this.remoteServer = new RemoteServer(peer);
     await this.remoteServer.connectedPromise;
+    console.log('connected');
 
     this.next(new ClientLobbyStore(this.pages, this.remoteServer!));
   }
