@@ -95,15 +95,25 @@ export class LocalServer implements IServer {
       { x: 0, y: MAP_SIZE - 1, direction: Directions.up },
     ];
 
-    const playersNumber = this.clients.length + 1;
+    const playersNumber = this.clients.length;
+    const TANK_HEALTH = 10;
 
     const tanks = tanksCoordinates.slice(0, playersNumber).map(({ x, y, direction }, index) => ({
       position: { x, y },
       playerId: this.clients[index].playerId,
       direction,
-      health: 10,
+      health: TANK_HEALTH,
       lastMoveTime: 0,
     }));
+
+    const coords = tanksCoordinates[playersNumber];
+    tanks.push({
+      playerId: this.localPlayerId,
+      direction: coords.direction,
+      position: { x: coords.x, y: coords.y },
+      health: TANK_HEALTH,
+      lastMoveTime: 0,
+    });
 
     return { blocks: MAP.blocks, isEnd: false, tanks };
     // TODO добавить карту, добавить себя как игрока
