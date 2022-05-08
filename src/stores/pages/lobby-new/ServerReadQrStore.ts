@@ -28,7 +28,7 @@ export class ServerReadQrStore extends BasePage {
   async *onQrFromClient(qr: string) {
     if (this.flag) return;
     this.flag = true;
-    const { ices, answer } = parseQrCode<TAnswerQrCode>(qr);
+    const { ices, answer, id } = parseQrCode<TAnswerQrCode>(qr);
 
     try {
       await this.peer.setRemoteAnswer(answer);
@@ -46,6 +46,7 @@ export class ServerReadQrStore extends BasePage {
       debugger;
     }
 
+    // BUG
     this.server.addRemoteClient(newPlayerId(), this.peer);
 
     this.next(new ServerShowQrStore(this.pages, this.server));

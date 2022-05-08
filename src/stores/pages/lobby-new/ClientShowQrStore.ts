@@ -42,7 +42,7 @@ export class ClientShowQrStore extends BasePage {
       console.log(answer);
       console.log(ices);
 
-      this.answerQr = createQrCode<TAnswerQrCode>({ answer, ices });
+      this.answerQr = createQrCode<TAnswerQrCode>({ answer, ices, id: this.id });
     } catch (e) {
       debugger;
     }

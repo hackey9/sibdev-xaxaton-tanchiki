@@ -67,7 +67,7 @@ export class ClientConnectingStore extends BasePage {
       console.log('данные для сервера', { answer, ices });
 
       // 5. создаём qr-код
-      this.answerQrCodeString = createQrCode<TAnswerQrCode>({ answer, ices });
+      this.answerQrCodeString = createQrCode<TAnswerQrCode>({ answer, ices, id: '' });
 
       // 6. ждём полного подключения
       await peer.connectedPromise;

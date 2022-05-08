@@ -13,6 +13,7 @@ export type TOfferQrCode = {
 };
 
 export type TAnswerQrCode = {
+  id: string;
   answer: RTCSessionDescriptionInit;
   ices: RTCIceCandidate[];
 };
