@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { SyntheticEvent } from 'react';
 import { FC } from 'react';
 
+import { TriangleArrowIcon } from '../../assets/icons';
 import { MAP_WIDTH } from '../../consts';
-
 import { Directions, ITank } from '../../types/Tank';
 import { IBlock } from '../../types/Wall';
 
@@ -35,26 +35,20 @@ const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap
       return setPlayerTank({
         ...playerTank,
         direction,
-      })
+      });
     }
 
     const entityWithTheSameCoords = objectsMap.find((tank) => {
       return tank.x === nextX && tank.y === nextY;
-    })
+    });
 
-    if (
-      nextX > MAX_COORD
-      || nextY > MAX_COORD
-      || nextX < 0
-      || nextY < 0
-      || entityWithTheSameCoords
-    ) return
+    if (nextX > MAX_COORD || nextY > MAX_COORD || nextX < 0 || nextY < 0 || entityWithTheSameCoords) return;
 
     setPlayerTank({
       ...playerTank,
       x: nextX,
       y: nextY,
-    })
+    });
   };
 
   const handleRightMove = () => {
@@ -97,19 +91,29 @@ const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap
       }
     };
 
-    window.addEventListener(('keyup'), handleKeyUp)
+    window.addEventListener('keyup', handleKeyUp);
 
-    return () => window.removeEventListener('keyup', handleKeyUp)
-  }, [handleUpMove, handleDownMove, handleLeftMove, handleRightMove])
+    return () => window.removeEventListener('keyup', handleKeyUp);
+  }, [handleUpMove, handleDownMove, handleLeftMove, handleRightMove]);
 
   return (
     <form className={style.controller} style={{ maxWidth: MAP_WIDTH }} onSubmit={handleFireButtonClick}>
-      <button className={style.fireButton} type="submit" />
+      <button className={style.fireButton} type="submit">
+        fire
+      </button>
       <div className={style.stickWrapper}>
-        <button type="button" onClick={handleUpMove} className={classNames(style.button, style.up)} />
-        <button type="button" onClick={handleRightMove} className={classNames(style.button, style.right)} />
-        <button type="button" onClick={handleDownMove} className={classNames(style.button, style.down)} />
-        <button type="button" onClick={handleLeftMove} className={classNames(style.button, style.left)} />
+        <button type="button" onClick={handleUpMove} className={classNames(style.button, style.up)}>
+          <TriangleArrowIcon className={style.arrowIcon} />
+        </button>
+        <button type="button" onClick={handleRightMove} className={classNames(style.button, style.right)}>
+          <TriangleArrowIcon className={style.arrowIcon} />
+        </button>
+        <button type="button" onClick={handleDownMove} className={classNames(style.button, style.down)}>
+          <TriangleArrowIcon className={style.arrowIcon} />
+        </button>
+        <button type="button" onClick={handleLeftMove} className={classNames(style.button, style.left)}>
+          <TriangleArrowIcon className={style.arrowIcon} />
+        </button>
       </div>
     </form>
   );

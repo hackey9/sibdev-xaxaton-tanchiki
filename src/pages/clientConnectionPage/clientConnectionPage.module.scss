@@ -30,6 +30,12 @@
     margin-top: 20px;
   }
 
+  &QRReaderVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   @media screen and (max-width: 520px) {
     &Card {
       max-width: 100%;

@@ -6,14 +6,20 @@
 }
 
 .fireButton {
-  background: var(--light-green);
+  background: #000;
   border: 0;
   border-radius: 50%;
   width: 100px;
   height: 100px;
+  box-shadow:
+          -10px -10px 15px rgba(0, 0, 0, 0.5),
+          10px 10px 15px rgba(14, 14, 14, 0.12),
+          inset -10px -10px 15px rgba(44, 44, 44, 0.5),
+          inset 10px 10px 15px rgba(70, 70, 70, 0.12);
+  color: #fff;
 
   &:active {
-    background: var(--green);
+    background: #000;
   }
 }
 
@@ -27,12 +33,28 @@
 }
 
 .button {
-  background: var(--light-green);
+  display: flex;
+  background: #000;
   border: 0;
   border-radius: 50%;
+  box-shadow:
+          -10px -10px 15px rgba(0, 0, 0, 0.5),
+          10px 10px 15px rgba(14, 14, 14, 0.12),
+          inset -10px -10px 15px rgba(44, 44, 44, 0.5),
+          inset 10px 10px 15px rgba(70, 70, 70, 0.12);
 
   &:active {
-    background: var(--green);
+    background: #000;
+  }
+}
+
+.arrowIcon {
+  width: 28px;
+  height: 28px;
+  margin: auto;
+
+  * {
+    fill: var(--white)
   }
 }
 
@@ -41,6 +63,10 @@
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
+
+  .arrowIcon {
+    transform: rotate(180deg);
+  }
 }
 
 .down {
@@ -55,6 +81,10 @@
   grid-column-end: 2;
   grid-row-start: 2;
   grid-row-end: 3;
+
+  .arrowIcon {
+    transform: rotate(90deg);
+  }
 }
 
 .right {
@@ -62,4 +92,8 @@
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
+
+  .arrowIcon {
+    transform: rotate(-90deg);
+  }
 }
