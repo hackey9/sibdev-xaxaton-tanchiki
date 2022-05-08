@@ -17,6 +17,16 @@ type Block = {
   destroyable: boolean;
 };
 
+type Entity = Block | Tank;
+
+const isEmptySpot = (x: number, y: number, entities: Entity[]) => {
+  const entityWithSameCoords = entities.find((entity) => {
+    return entity.position.x === x && entity.position.y === y;
+  });
+
+  return !entityWithSameCoords;
+};
+
 export interface TGameState {
   // TODO
   blocks: Array<Block>;
@@ -102,20 +112,30 @@ export function __stubGameStateReducer(
 
       if (action.direction === currentPlayerTank.direction) {
         const oldPosition = currentPlayerTank.position;
-        let newPosition: { x: number; y: number };
+        let newPosition: { x: number; y: number } = currentPlayerTank.position;
+
+        const otherEntities = [state.tanks, state.blocks].flat();
 
         switch (action.direction) {
           case Directions.up:
-            newPosition = oldPosition.x <= 0 ? oldPosition : { ...oldPosition, x: oldPosition.x - 1 };
+            if (isEmptySpot(oldPosition.x, oldPosition.y - 1, otherEntities)) {
+              newPosition = oldPosition.y <= 0 ? oldPosition : { ...oldPosition, y: oldPosition.y - 1 };
+            }
             break;
           case Directions.down:
-            newPosition = oldPosition.x >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
+            if (isEmptySpot(oldPosition.x, oldPosition.y + 1, otherEntities)) {
+              newPosition = oldPosition.y >= MAP_SIZE - 2 ? oldPosition : { ...oldPosition, y: oldPosition.y + 1 };
+            }
             break;
           case Directions.left:
-            newPosition = oldPosition.y <= 0 ? oldPosition : { ...oldPosition, y: oldPosition.y - 1 };
+            if (isEmptySpot(oldPosition.x - 1, oldPosition.y, otherEntities)) {
+              newPosition = oldPosition.x <= 0 ? oldPosition : { ...oldPosition, x: oldPosition.x - 1 };
+            }
             break;
           case Directions.right:
-            newPosition = oldPosition.y >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, y: oldPosition.y + 1 };
+            if (isEmptySpot(oldPosition.x + 1, oldPosition.y, otherEntities)) {
+              newPosition = oldPosition.x >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
+            }
             break;
         }
 

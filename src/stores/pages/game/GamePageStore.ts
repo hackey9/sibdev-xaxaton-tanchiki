@@ -27,7 +27,6 @@ export class GamePageStore extends BasePage {
   }
 
   move(direction: Directions) {
-    // TODO раскоменть?
-    // this.server.send({ type: 'move', direction });
+    this.server.send({ type: 'move', direction });
   }
 }

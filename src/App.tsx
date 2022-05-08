@@ -16,7 +16,6 @@ const App = observer(() => {
 
   const renderPage = usePageRenderer();
 
-  // return <div className="App">{<GamePage />}</div>
   return <div className="App">{renderPage(ref.current.currentPage)}</div>;
 });
 
