@@ -3,7 +3,6 @@ import { FC, useState } from 'react';
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
 import Wall from '../../components/wall/wall';
-
 import { Map } from '../../model/map';
 import { Directions, ITank } from '../../types/Tank';
 
@@ -113,8 +112,7 @@ const GamePage: FC = () => {
             <Wall isDestructible={false} x={index} y={15} />
           ))}
 
-        <Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />
-
+          <Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />
         </svg>
         <Controller playerTank={playerTank} setPlayerTank={setPlayerTank} objectsMap={objectsMap} />
       </div>

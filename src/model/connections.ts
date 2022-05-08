@@ -26,10 +26,12 @@ export class PlayerConnection<TSend, TReceive> {
     });
 
     this.connectedPromise = new Promise<void>((resolve) => {
-      this.connection.addEventListener('connectionstatechange', () => {
-        if (this.connection.connectionState === 'connected') {
-          resolve();
-        }
+      this.connection.addEventListener('datachannel', (ev) => {
+        resolve();
+        this.dataChannel = ev.channel;
+        this.dataChannel.onmessage = (ev) => {
+          this.onMessage?.(JSON.parse(ev.data));
+        };
       });
     });
 
@@ -39,10 +41,6 @@ export class PlayerConnection<TSend, TReceive> {
           resolve();
         }
       });
-    });
-
-    this.connection.addEventListener('datachannel', (ev) => {
-      this.dataChannel = ev.channel;
     });
   }
 
