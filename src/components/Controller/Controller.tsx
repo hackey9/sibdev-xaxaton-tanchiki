@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC, SyntheticEvent, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { TriangleArrowIcon } from '../../assets/icons';
 import { MAP_WIDTH } from '../../consts';
@@ -17,14 +17,8 @@ interface ControllerProps {
 }
 
 const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
-  const handleFireButtonClick = (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    onFire();
-  };
-
   useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
           onMove(Directions.up);
@@ -39,6 +33,7 @@ const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
           onMove(Directions.right);
           break;
         case ' ':
+          e.preventDefault();
           onFire();
           break;
         default:
@@ -46,14 +41,14 @@ const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
       }
     };
 
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown);
 
-    return () => window.removeEventListener('keyup', handleKeyUp);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onFire, onMove]);
 
   return (
-    <form className={style.controller} style={{ maxWidth: MAP_WIDTH }} onSubmit={handleFireButtonClick}>
-      <button className={style.fireButton} type="submit">
+    <form className={style.controller} style={{ maxWidth: MAP_WIDTH }}>
+      <button className={style.fireButton} type="button" onClick={onFire}>
         fire
       </button>
       <div className={style.stickWrapper}>
