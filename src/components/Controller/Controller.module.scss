@@ -1,7 +1,6 @@
 .controller {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   box-sizing: border-box;
@@ -13,6 +12,7 @@
   border-radius: 50%;
   width: 100px;
   height: 100px;
+  margin-right: auto;
   box-shadow:
           -10px -10px 15px rgba(0, 0, 0, 0.5),
           10px 10px 15px rgba(14, 14, 14, 0.12),
@@ -28,7 +28,7 @@
 .stickWrapper {
   width: 150px;
   height: 150px;
-  margin-left: 60px;
+  margin-left: 30px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);

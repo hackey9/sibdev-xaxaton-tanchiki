@@ -48,24 +48,55 @@ const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
 
   return (
     <form className={style.controller} style={{ maxWidth: MAP_WIDTH }}>
-      <button className={style.fireButton} type="button" onClick={onFire}>
+      <button
+        className={style.fireButton}
+        type="button"
+        onClick={() => {
+          onFire();
+          window.navigator.vibrate(100);
+        }}
+      >
         <TargetIcon />
       </button>
       <div className={style.stickWrapper}>
-        <button type="button" onClick={() => onMove(Directions.up)} className={classNames(style.button, style.up)}>
+        <button
+          type="button"
+          onClick={() => {
+            onMove(Directions.up);
+            window.navigator.vibrate(50);
+          }}
+          className={classNames(style.button, style.up)}
+        >
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
         <button
           type="button"
-          onClick={() => onMove(Directions.right)}
+          onClick={() => {
+            onMove(Directions.right);
+            window.navigator.vibrate(50);
+          }}
           className={classNames(style.button, style.right)}
         >
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
-        <button type="button" onClick={() => onMove(Directions.down)} className={classNames(style.button, style.down)}>
+        <button
+          type="button"
+          onClick={() => {
+            onMove(Directions.down);
+            window.navigator.vibrate(50);
+          }}
+          className={classNames(style.button, style.down)}
+        >
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
-        <button type="button" onClick={() => onMove(Directions.left)} className={classNames(style.button, style.left)}>
+        <button
+          type="button"
+          onClick={() => {
+            onMove(Directions.left);
+            window.navigator.vibrate(50);
+          }}
+          className={classNames(style.button, style.left)}
+        >
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
       </div>

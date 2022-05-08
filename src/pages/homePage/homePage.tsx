@@ -13,7 +13,9 @@ const HomePage: FC<HomePageProps> = ({ handleCreateGame, handleConnect }) => {
   const [name, setName] = useState('');
 
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setName(e.target.value);
+    if (e.target.value.length <= 40) {
+      setName(e.target.value);
+    }
   };
 
   const hasName = name && name?.length;
