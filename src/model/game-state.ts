@@ -8,6 +8,7 @@ type Tank = {
   playerId: string;
   position: { x: number; y: number };
   lastMoveTime: number;
+  lastShootTime: number;
   health: number;
   direction: Directions;
 };
@@ -44,29 +45,29 @@ export function __stubGameStateReducer(
   playerId: string,
   action: TPlayerAction
 ): TGameState {
+  const currentTank = state.tanks.find((tank) => tank.playerId === playerId);
+
   switch (action.type) {
     case 'fire':
-      const tank = state.tanks.find((tank) => tank.playerId === playerId);
-
-      if (!tank) {
+      if (!currentTank || new Date().getTime() - currentTank.lastShootTime < 300) {
         return state;
       }
 
       let filterFunction: (x: number, y: number, max: { x: number; y: number }) => boolean = () => false;
       let maxValue: { x: number; y: number };
 
-      if (tank.direction === Directions.up && tank.position.y > 0) {
-        filterFunction = (x, y, max) => y < tank.position.y && x === tank.position.x && y > max.y;
+      if (currentTank.direction === Directions.up && currentTank.position.y > 0) {
+        filterFunction = (x, y, max) => y < currentTank.position.y && x === currentTank.position.x && y > max.y;
         maxValue = { x: 0, y: 0 };
-      } else if (tank.direction === Directions.down && tank.position.y < MAP_SIZE - 1) {
-        filterFunction = (x, y, max) => y > tank.position.y && x === tank.position.x && y < max.y;
+      } else if (currentTank.direction === Directions.down && currentTank.position.y < MAP_SIZE - 1) {
+        filterFunction = (x, y, max) => y > currentTank.position.y && x === currentTank.position.x && y < max.y;
         maxValue = { x: MAP_SIZE - 1, y: MAP_SIZE - 1 };
-      } else if (tank.direction === Directions.left && tank.position.x > 0) {
-        filterFunction = (x, y, max) => x < tank.position.x && y === tank.position.y && x > max.x;
+      } else if (currentTank.direction === Directions.left && currentTank.position.x > 0) {
+        filterFunction = (x, y, max) => x < currentTank.position.x && y === currentTank.position.y && x > max.x;
         maxValue = { x: 0, y: 0 };
-      } else if (tank.direction === Directions.right && tank.position.y < MAP_SIZE - 1) {
+      } else if (currentTank.direction === Directions.right && currentTank.position.y < MAP_SIZE - 1) {
         filterFunction = (x, y, max) => {
-          return x > tank.position.x && y === tank.position.y && x < max.x;
+          return x > currentTank.position.x && y === currentTank.position.y && x < max.x;
         };
         maxValue = { x: MAP_SIZE - 1, y: MAP_SIZE - 1 };
       }
@@ -87,9 +88,13 @@ export function __stubGameStateReducer(
         if ('health' in nearestObject && (nearestObject as Tank).health) {
           return {
             ...state,
-            tanks: state.tanks.map((tank) =>
-              tank.playerId === nearestObject.playerId ? { ...tank, health: tank.health - 1 } : tank
-            ),
+            tanks: state.tanks.map((tank) => {
+              if (currentTank.playerId === tank.playerId) {
+                return { ...tank, lastShootTime: new Date().getTime() };
+              }
+
+              return tank.playerId === nearestObject.playerId ? { ...tank, health: tank.health - 1 } : tank;
+            }),
           };
         }
 
@@ -99,20 +104,21 @@ export function __stubGameStateReducer(
           return {
             ...state,
             blocks: newBlocks,
+            tanks: state.tanks.map((tank) => {
+              return currentTank.playerId === tank.playerId ? { ...tank, lastShootTime: new Date().getTime() } : tank;
+            }),
           };
         }
       }
       break;
     case 'move':
-      const currentPlayerTank = state.tanks.find((tank) => tank.playerId === playerId);
-
-      if (!currentPlayerTank || new Date().getTime() - currentPlayerTank.lastMoveTime < 300) {
+      if (!currentTank || new Date().getTime() - currentTank.lastMoveTime < 300) {
         return state;
       }
 
-      if (action.direction === currentPlayerTank.direction) {
-        const oldPosition = currentPlayerTank.position;
-        let newPosition: { x: number; y: number } = currentPlayerTank.position;
+      if (action.direction === currentTank.direction) {
+        const oldPosition = currentTank.position;
+        let newPosition: { x: number; y: number } = currentTank.position;
 
         const allMapObjects = [...state.tanks, ...state.blocks];
 
@@ -142,17 +148,15 @@ export function __stubGameStateReducer(
         return {
           ...state,
           tanks: state.tanks.map((tank) =>
-            tank === currentPlayerTank
-              ? { ...currentPlayerTank, position: newPosition, lastMoveTime: new Date().getTime() }
-              : tank
+            tank === currentTank ? { ...currentTank, position: newPosition, lastMoveTime: new Date().getTime() } : tank
           ),
         };
       } else {
         return {
           ...state,
           tanks: state.tanks.map((tank) =>
-            tank === currentPlayerTank
-              ? { ...currentPlayerTank, direction: action.direction, lastMoveTime: new Date().getTime() }
+            tank === currentTank
+              ? { ...currentTank, direction: action.direction, lastMoveTime: new Date().getTime() }
               : tank
           ),
         };

@@ -105,6 +105,7 @@ export class LocalServer implements IServer {
       direction,
       health: TANK_HEALTH,
       lastMoveTime: 0,
+      lastShootTime: 0,
     }));
 
     const coords = tanksCoordinates[playersNumber];
@@ -114,6 +115,7 @@ export class LocalServer implements IServer {
       position: { x: coords.x, y: coords.y },
       health: TANK_HEALTH,
       lastMoveTime: 0,
+      lastShootTime: 0,
     });
 
     return { blocks: MAP.blocks, isEnd: false, tanks };
