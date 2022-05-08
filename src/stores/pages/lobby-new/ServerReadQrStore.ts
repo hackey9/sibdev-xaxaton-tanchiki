@@ -46,8 +46,7 @@ export class ServerReadQrStore extends BasePage {
       debugger;
     }
 
-    // BUG
-    this.server.addRemoteClient(newPlayerId(), this.peer);
+    this.server.addRemoteClient(id, this.peer);
 
     this.next(new ServerShowQrStore(this.pages, this.server));
   }
