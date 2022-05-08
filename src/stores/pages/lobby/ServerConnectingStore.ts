@@ -77,6 +77,7 @@ export class ServerConnectingStore extends BasePage {
 
   onStartGame(): void {
     this.localServer.broadcast({ type: 'start' });
+    this.localServer.broadcast({ type: 'gameState', state: this.localServer.state });
     this.next(new GamePageStore(this.pages, this.localServer));
   }
 

@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { SyntheticEvent } from 'react';
 import { FC } from 'react';
@@ -24,7 +25,7 @@ interface ControllerProps {
   onFire: () => void;
 }
 
-const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap, onFire }) => {
+const Controller: FC<ControllerProps> = observer(({ playerTank, setPlayerTank, objectsMap, onFire }) => {
   const handleFireButtonClick = (e: SyntheticEvent) => {
     e.preventDefault();
 
@@ -118,6 +119,6 @@ const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap
       </div>
     </form>
   );
-};
+});
 
 export default Controller;

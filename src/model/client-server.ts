@@ -50,6 +50,9 @@ export class RemoteServer implements IServer {
       case 'start':
         this.resolveStart();
         break;
+      case 'ping':
+        alert('ping from remote');
+        break;
       case 'gameState':
         this.state = response.state;
         break;
@@ -92,12 +95,13 @@ export class LocalServer implements IServer {
 
   broadcast(action: TServerResponse): void {
     this.clients.forEach((client) => {
-      client.peer.send(action);
+      client.send(action);
     });
   }
 
   handleActionFrom(playerId: string, action: TPlayerAction): void {
     this.state = this.gameStateReducer(this.state, playerId, action);
+    this.broadcast({ type: 'gameState', state: this.state });
   }
 
   addRemoteClient(playerId: string, peer: PlayerConnection<TServerResponse, TPlayerAction>): void {
@@ -120,6 +124,10 @@ class RemoteClient {
     });
 
     this.peer.onMessage = this.onMessage;
+  }
+
+  send(data: TServerResponse) {
+    this.peer.send(data);
   }
 
   onMessage(action: TPlayerAction) {

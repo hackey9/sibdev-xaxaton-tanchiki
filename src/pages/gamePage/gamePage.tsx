@@ -1,15 +1,15 @@
+import { observer } from 'mobx-react-lite';
 import { FC, useState } from 'react';
 
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
 import Wall from '../../components/wall/wall';
-import { IServer } from '../../model/client-server';
 import { Map } from '../../model/map';
 import { Directions, ITank } from '../../types/Tank';
 
 import style from './gamePage.module.scss';
 
-const GamePage: FC<{ onFire: VoidFunction }> = ({ onFire }) => {
+const GamePage: FC<{ onFire: VoidFunction }> = observer(({ onFire }) => {
   const [playerTank, setPlayerTank] = useState<ITank>({
     x: 2,
     y: 2,
@@ -119,6 +119,6 @@ const GamePage: FC<{ onFire: VoidFunction }> = ({ onFire }) => {
       </div>
     </main>
   );
-};
+});
 
 export default GamePage;

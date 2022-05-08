@@ -1,8 +1,9 @@
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
 import { BrickWall as BrickWallType } from '../../types/Wall';
 
-const BrickWall: FC<BrickWallType> = ({ x, y, isDestructed }) => {
+const BrickWall: FC<BrickWallType> = observer(({ x, y, isDestructed }) => {
   if (isDestructed) {
     return null;
   }
@@ -13,6 +14,6 @@ const BrickWall: FC<BrickWallType> = ({ x, y, isDestructed }) => {
       <rect x={x + 0.15} y={y + 0.15} width={0.7} height={0.7} fill="#000" />
     </>
   );
-};
+});
 
 export default BrickWall;

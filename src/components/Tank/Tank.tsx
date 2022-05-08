@@ -1,9 +1,10 @@
+import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { FC } from 'react';
 
 import { Directions, ITank } from '../../types/Tank';
 
-const Tank: FC<ITank> = ({ x, y, direction }) => {
+const Tank: FC<ITank> = observer(({ x, y, direction }) => {
   const coords = useMemo(() => {
     switch (direction) {
       case Directions.down:
@@ -64,6 +65,6 @@ const Tank: FC<ITank> = ({ x, y, direction }) => {
       />
     </>
   );
-};
+});
 
 export default Tank;
