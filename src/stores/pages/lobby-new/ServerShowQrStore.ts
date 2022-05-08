@@ -2,7 +2,8 @@ import { action, flow, makeObservable, observable } from 'mobx';
 
 import { LocalServer } from '../../../model/client-server';
 import { PlayerConnection } from '../../../model/connections';
-import { createQrCode } from '../../../utils/qr-code';
+import { newPlayerId } from '../../../utils/newPlayerId';
+import { createQrCode, TOfferQrCode } from '../../../utils/qr-code';
 import { BasePage, IPageVisitor } from '../BasePage';
 import { GamePageStore } from '../game/GamePageStore';
 import { PagesController } from '../PagesController';
@@ -39,7 +40,8 @@ export class ServerShowQrStore extends BasePage {
       const offer = await this.peer.createLocalOffer();
       const ices = await this.peer.getIceCandidates();
       yield;
-      this.offerQr = createQrCode({ offer, ices });
+      const id = newPlayerId();
+      this.offerQr = createQrCode<TOfferQrCode>({ offer, ices, id });
     } catch (e) {
       debugger;
     }
