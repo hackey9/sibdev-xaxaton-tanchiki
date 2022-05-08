@@ -1,11 +1,14 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import { MAP_SIZE } from '../consts';
+import { MAP } from '../consts/map';
+import { Directions } from '../types/Tank';
 import { createExternalPromise } from '../utils/externalPromise';
 import { newPlayerId } from '../utils/newPlayerId';
 
 import { PlayerConnection } from './connections';
-import { TGameState, IGameStateReducer } from './game-state';
-import { TServerResponse, TPlayerAction } from './messages';
+import { IGameStateReducer, TGameState } from './game-state';
+import { TPlayerAction, TServerResponse } from './messages';
 
 export interface IServer {
   readonly state: TGameState;
@@ -50,9 +53,9 @@ export class RemoteServer implements IServer {
       case 'start':
         this.resolveStart();
         break;
-      case 'ping':
-        alert('ping from remote');
-        break;
+      // case 'ping':
+      //   alert('ping from remote');
+      //   break;
       case 'gameState':
         this.state = response.state;
         break;
@@ -85,7 +88,24 @@ export class LocalServer implements IServer {
   }
 
   private getInitialGameState(): TGameState {
-    return { blocks: [], isEnd: false, tanks: [] };
+    const tanksCoordinates = [
+      { x: 0, y: 1, direction: Directions.right },
+      { x: MAP_SIZE - 1, y: 0, direction: Directions.down },
+      { x: MAP_SIZE - 1, y: MAP_SIZE - 1, direction: Directions.left },
+      { x: 0, y: MAP_SIZE - 1, direction: Directions.up },
+    ];
+
+    const playersNumber = this.clients.length + 1;
+
+    const tanks = tanksCoordinates.slice(0, playersNumber).map(({ x, y, direction }, index) => ({
+      position: { x, y },
+      playerId: this.clients[index].playerId,
+      direction,
+      health: 10,
+      lastMoveTime: 0,
+    }));
+
+    return { blocks: MAP.blocks, isEnd: false, tanks };
     // TODO добавить карту, добавить себя как игрока
   }
 
@@ -112,7 +132,7 @@ export class LocalServer implements IServer {
 class RemoteClient {
   private readonly localServer: LocalServer;
   readonly peer: PlayerConnection<TServerResponse, TPlayerAction>;
-  private readonly playerId: string;
+  readonly playerId: string;
 
   constructor(localServer: LocalServer, playerId: string, peer: PlayerConnection<TServerResponse, TPlayerAction>) {
     this.localServer = localServer;

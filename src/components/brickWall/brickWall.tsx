@@ -1,13 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
-import { BrickWall as BrickWallType } from '../../types/Wall';
+import { IBlock } from '../../types/Wall';
 
-const BrickWall: FC<BrickWallType> = observer(({ x, y, isDestructed }) => {
-  if (isDestructed) {
-    return null;
-  }
-
+const BrickWall: FC<IBlock> = observer(({ x, y }) => {
   return (
     <>
       <rect x={x} y={y} width={1} height={1} fill="#722709" />
