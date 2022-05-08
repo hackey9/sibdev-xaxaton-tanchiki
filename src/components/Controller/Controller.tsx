@@ -21,13 +21,14 @@ interface ControllerProps {
   playerTank: ITank;
   setPlayerTank: (tank: ITank) => void;
   objectsMap: TObjectsMap[];
+  onFire: () => void;
 }
 
-const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap }) => {
+const Controller: FC<ControllerProps> = ({ playerTank, setPlayerTank, objectsMap, onFire }) => {
   const handleFireButtonClick = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    // TODO: do fire handler
+    onFire();
   };
 
   const checkOnObstacle = (nextX: number, nextY: number, direction: Directions) => {

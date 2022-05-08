@@ -3,12 +3,13 @@ import { FC, useState } from 'react';
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
 import Wall from '../../components/wall/wall';
+import { IServer } from '../../model/client-server';
 import { Map } from '../../model/map';
 import { Directions, ITank } from '../../types/Tank';
 
 import style from './gamePage.module.scss';
 
-const GamePage: FC = () => {
+const GamePage: FC<{ onFire: VoidFunction }> = ({ onFire }) => {
   const [playerTank, setPlayerTank] = useState<ITank>({
     x: 2,
     y: 2,
@@ -114,7 +115,7 @@ const GamePage: FC = () => {
 
           <Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />
         </svg>
-        <Controller playerTank={playerTank} setPlayerTank={setPlayerTank} objectsMap={objectsMap} />
+        <Controller playerTank={playerTank} setPlayerTank={setPlayerTank} objectsMap={objectsMap} onFire={onFire} />
       </div>
     </main>
   );

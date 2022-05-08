@@ -3,7 +3,7 @@ import { BasePage, IPageVisitor } from '../BasePage';
 import { PagesController } from '../PagesController';
 
 export class GamePageStore extends BasePage {
-  private server: IServer;
+  server: IServer;
 
   constructor(pages: PagesController, server: IServer) {
     super(pages);
@@ -12,5 +12,9 @@ export class GamePageStore extends BasePage {
 
   accept<R>(visitor: IPageVisitor<R>): R {
     return visitor.withGamePage(this);
+  }
+
+  fire() {
+    this.server.send({ type: 'fire' });
   }
 }
