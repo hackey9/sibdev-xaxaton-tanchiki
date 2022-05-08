@@ -14,7 +14,7 @@ const renderPageVisitor: IPageVisitor<React.ReactElement> = {
     <>
       {page.showQR ? (
         <ServerConnectionPage
-          users={page.players}
+          users={page.localServer.clients.map(({ playerId, color }) => ({ color, name: playerId }))}
           handleStartGame={page.onStartGame}
           qrValue={page.qrCodeString}
           handleScan={page.goScan}

@@ -39,7 +39,7 @@ const ClientConnectionPage: FC<ClientConnectionPageProps> = ({ handleQRResult, h
       <div className={styles.pageCard}>
         <ReturnButton className={styles.pageReturnButton} onClick={handleReturn} />
 
-        <h1>Подключение к игре</h1>
+        <h2>Подключение к игре</h2>
         <p>Отсканируйте QR-код создателя игры, чтобы присоединиться к игре.</p>
 
         <div className={styles.pageQRReader}>

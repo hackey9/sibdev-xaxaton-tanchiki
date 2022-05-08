@@ -1,10 +1,10 @@
 export enum PlayerColors {
-  red,
-  orange,
-  yellow,
-  green,
-  blue,
-  violet,
-  black,
-  white,
+  red = 'red',
+  orange = 'orange',
+  yellow = 'yellow',
+  green = 'green',
+  blue = 'blue',
+  violet = 'violet',
+  black = 'black',
+  white = 'white',
 }

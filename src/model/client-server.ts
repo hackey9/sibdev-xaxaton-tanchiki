@@ -4,6 +4,7 @@ import { MAP_SIZE } from '../consts';
 import { MAP } from '../consts/map';
 import { Directions } from '../types/Tank';
 import { createExternalPromise } from '../utils/externalPromise';
+import { getNextColor } from '../utils/getNextColor';
 import { newPlayerId } from '../utils/newPlayerId';
 
 import { PlayerConnection } from './connections';
@@ -143,11 +144,13 @@ class RemoteClient {
   private readonly localServer: LocalServer;
   readonly peer: PlayerConnection<TServerResponse, TPlayerAction>;
   readonly playerId: string;
+  readonly color: string;
 
   constructor(localServer: LocalServer, playerId: string, peer: PlayerConnection<TServerResponse, TPlayerAction>) {
     this.localServer = localServer;
     this.peer = peer;
     this.playerId = playerId;
+    this.color = getNextColor();
 
     makeObservable(this, {
       onMessage: action.bound,

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import preloader from '../../assets/gif/load.gif';
-import ReturnButton from '../../components/returnButton/returnButton';
+import UsersList from '../../components/usersList/usersList';
 
 import styles from './clientLobbyPage.module.scss';
 
@@ -18,18 +18,7 @@ const ClientLobbyPage: FC<ClientLobbyPageProps> = ({ users }) => {
           <p>Подождите, пока создатель игры начнет ее.</p>
         </div>
 
-        {users?.length && (
-          <div className={styles.pageUsersList}>
-            <h3>Список участников</h3>
-
-            {users.map(({ name, color }) => (
-              <div className={styles.pageUserContainer}>
-                <span className={styles.pageUserContainerCorner} style={{ backgroundColor: color }} />
-                <p>{name}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {users && Boolean(users?.length) && <UsersList users={users} />}
 
         <div>
           <img src={preloader} alt="loading..." />

@@ -134,7 +134,7 @@ export function __stubGameStateReducer(
             break;
           case Directions.right:
             if (isEmptySpot(oldPosition.x + 1, oldPosition.y, otherEntities)) {
-              newPosition = oldPosition.x >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
+              newPosition = oldPosition.x >= MAP_SIZE - 2 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
             }
             break;
         }

@@ -23,21 +23,26 @@ const HomePage: FC<HomePageProps> = ({ handleCreateGame, handleConnect }) => {
       <div className={styles.homeCard}>
         <img src="https://i.ytimg.com/vi/culwxTEFMYg/maxresdefault.jpg" alt="logo" className={styles.homeLogo} />
 
-        <div className={styles.homeLoginContainer}>
+        <form className={styles.homeLoginContainer}>
           <div className={styles.homeField}>
             <label>Введите никнейм: </label>
             <input value={name} onChange={handleNameChange} />
           </div>
 
           <div className={styles.homeButtonsContainer}>
-            <Button className={styles.homeButton} disabled={!hasName} onClick={() => handleCreateGame(name)}>
+            <Button
+              className={styles.homeButton}
+              disabled={!hasName}
+              type="submit"
+              onClick={() => handleCreateGame(name)}
+            >
               Создать игру
             </Button>
             <Button className={styles.homeButton} disabled={!hasName} onClick={() => handleConnect(name)}>
               Подключиться к игре
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </main>
   );

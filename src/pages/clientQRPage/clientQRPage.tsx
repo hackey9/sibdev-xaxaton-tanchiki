@@ -12,7 +12,7 @@ const ClientQRPage: FC<ClientQRPageProps> = observer(({ qrValue }) => {
   return (
     <main className={styles.page}>
       <div className={styles.pageCard}>
-        <h1>Подключение к игре</h1>
+        <h2>Подключение к игре</h2>
 
         {qrValue && (
           <>

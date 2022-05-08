@@ -1,0 +1,24 @@
+.users {
+  &List {
+    margin-bottom: 20px;
+  }
+
+  &Container {
+    position: relative;
+    background-color: rgba(116, 178, 95, 0.1);
+
+    & > p {
+      margin: 8px;
+      padding-left: 20px;
+    }
+  }
+
+  &ContainerCorner {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 5px, 5px 100%, 0 100%);
+  }
+}
