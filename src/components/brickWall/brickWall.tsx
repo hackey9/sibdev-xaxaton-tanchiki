@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { IBlock } from '../../types/Wall';
 
-const BrickWall: FC<IBlock> = observer(({ x, y }) => {
+const BrickWall: FC<Omit<IBlock, 'isDestructible'>> = observer(({ x, y }) => {
   return (
     <>
       <rect x={x} y={y} width={1} height={1} fill="#722709" />

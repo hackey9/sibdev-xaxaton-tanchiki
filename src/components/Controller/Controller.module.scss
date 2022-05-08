@@ -6,7 +6,7 @@
 }
 
 .fireButton {
-  background: #000;
+  background: #0a0a0a;
   border: 0;
   border-radius: 50%;
   width: 100px;
@@ -19,7 +19,7 @@
   color: #fff;
 
   &:active {
-    background: #000;
+    background: #0a0a0a;
   }
 }
 
@@ -34,7 +34,7 @@
 
 .button {
   display: flex;
-  background: #000;
+  background: #0a0a0a;
   border: 0;
   border-radius: 50%;
   box-shadow:
@@ -44,7 +44,7 @@
           inset 10px 10px 15px rgba(70, 70, 70, 0.12);
 
   &:active {
-    background: #000;
+    background: #0a0a0a;
   }
 }
 
@@ -54,7 +54,7 @@
   margin: auto;
 
   * {
-    fill: var(--white)
+    fill: var(--white);
   }
 }
 

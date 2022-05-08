@@ -3,8 +3,6 @@ import { FC } from 'react';
 import QRCode from 'react-qr-code';
 
 import Button from '../../components/button/button';
-import { ButtonVariants } from '../../components/button/types';
-import ReturnButton from '../../components/returnButton/returnButton';
 
 import styles from './serverConnectionPage.module.scss';
 
@@ -13,6 +11,7 @@ type ServerConnectionPageProps = {
   users: any[]; // TODO
   handleScan: VoidFunction;
   handleStartGame: VoidFunction;
+  // handleReturn: VoidFunction;
 };
 
 const ServerConnectionPage: FC<ServerConnectionPageProps> = observer(
@@ -22,17 +21,19 @@ const ServerConnectionPage: FC<ServerConnectionPageProps> = observer(
     return (
       <main className={styles.page}>
         <div className={styles.pageCard}>
-          <ReturnButton variant={ButtonVariants.pure} className={styles.pageReturnButton} />
+          {/*<ReturnButton variant={ButtonVariants.pure} className={styles.pageReturnButton} onClick={handleReturn} />*/}
 
           <h1>Подключение к игре</h1>
 
           <Button onClick={handleStartGame}>Начать игру</Button>
 
           <p>QR-код должен отсканировать один из участников, чтобы присоединиться к игре.</p>
-          <p>Начните игру, когда присоединяться все участники.</p>
+          <p>Начните игру, когда присоединятся все участники.</p>
 
           <div className={styles.pageQRWrapper}>{qrValue && <QRCode value={qrValue} />}</div>
-          <button onClick={handleScan}>Сканировать QR-код игрока</button>
+          <Button className={styles.pageGenerateButton} onClick={handleScan}>
+            Сканировать QR-код игрока
+          </Button>
         </div>
       </main>
     );

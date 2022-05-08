@@ -13,8 +13,6 @@ const ClientLobbyPage: FC<ClientLobbyPageProps> = ({ users }) => {
   return (
     <main className={styles.page}>
       <div className={styles.pageCard}>
-        <ReturnButton className={styles.pageReturnButton} />
-
         <div>
           <p>Вы подключились к игре!</p>
           <p>Подождите, пока создатель игры начнет ее.</p>

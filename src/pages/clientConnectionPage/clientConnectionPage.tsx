@@ -37,13 +37,10 @@ const ClientConnectionPage: FC<ClientConnectionPageProps> = ({ handleQRResult, h
   return (
     <main className={styles.page}>
       <div className={styles.pageCard}>
-        {/* TODO: add onClick */}
-        <ReturnButton className={styles.pageReturnButton} />
+        <ReturnButton className={styles.pageReturnButton} onClick={handleReturn} />
 
         <h1>Подключение к игре</h1>
         <p>Отсканируйте QR-код создателя игры, чтобы присоединиться к игре.</p>
-
-        {/*<QrReader className={styles.pageQRReader} constraints={{ aspectRatio: 1 }} onResult={handleQRReaderResult} />*/}
 
         <div className={styles.pageQRReader}>
           <video ref={qrVideoRef} className={styles.pageQRReaderVideo} />
