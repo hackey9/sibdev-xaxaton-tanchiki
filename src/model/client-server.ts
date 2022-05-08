@@ -90,10 +90,10 @@ export class LocalServer implements IServer {
 
   private getInitialGameState(): TGameState {
     const tanksCoordinates = [
-      { x: 0, y: 1, direction: Directions.right },
-      { x: MAP_SIZE - 1, y: 0, direction: Directions.down },
-      { x: MAP_SIZE - 1, y: MAP_SIZE - 1, direction: Directions.left },
-      { x: 0, y: MAP_SIZE - 1, direction: Directions.up },
+      { x: 3, y: 1, direction: Directions.right },
+      { x: 3, y: MAP_SIZE - 2, direction: Directions.down },
+      { x: MAP_SIZE - 2, y: 1, direction: Directions.left },
+      { x: 8, y: MAP_SIZE - 6, direction: Directions.up },
     ];
 
     const playersNumber = this.clients.length;

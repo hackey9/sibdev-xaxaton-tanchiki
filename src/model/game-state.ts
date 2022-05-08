@@ -106,7 +106,7 @@ export function __stubGameStateReducer(
     case 'move':
       const currentPlayerTank = state.tanks.find((tank) => tank.playerId === playerId);
 
-      if (!currentPlayerTank) {
+      if (!currentPlayerTank || new Date().getTime() - currentPlayerTank.lastMoveTime < 300) {
         return state;
       }
 
@@ -114,27 +114,27 @@ export function __stubGameStateReducer(
         const oldPosition = currentPlayerTank.position;
         let newPosition: { x: number; y: number } = currentPlayerTank.position;
 
-        const otherEntities = [state.tanks, state.blocks].flat();
+        const allMapObjects = [...state.tanks, ...state.blocks];
 
         switch (action.direction) {
           case Directions.up:
-            if (isEmptySpot(oldPosition.x, oldPosition.y - 1, otherEntities)) {
+            if (isEmptySpot(oldPosition.x, oldPosition.y - 1, allMapObjects)) {
               newPosition = oldPosition.y <= 0 ? oldPosition : { ...oldPosition, y: oldPosition.y - 1 };
             }
             break;
           case Directions.down:
-            if (isEmptySpot(oldPosition.x, oldPosition.y + 1, otherEntities)) {
+            if (isEmptySpot(oldPosition.x, oldPosition.y + 1, allMapObjects)) {
               newPosition = oldPosition.y >= MAP_SIZE - 2 ? oldPosition : { ...oldPosition, y: oldPosition.y + 1 };
             }
             break;
           case Directions.left:
-            if (isEmptySpot(oldPosition.x - 1, oldPosition.y, otherEntities)) {
+            if (isEmptySpot(oldPosition.x - 1, oldPosition.y, allMapObjects)) {
               newPosition = oldPosition.x <= 0 ? oldPosition : { ...oldPosition, x: oldPosition.x - 1 };
             }
             break;
           case Directions.right:
-            if (isEmptySpot(oldPosition.x + 1, oldPosition.y, otherEntities)) {
-              newPosition = oldPosition.x >= MAP_SIZE - 2 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
+            if (isEmptySpot(oldPosition.x + 1, oldPosition.y, allMapObjects)) {
+              newPosition = oldPosition.x >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
             }
             break;
         }
@@ -142,14 +142,18 @@ export function __stubGameStateReducer(
         return {
           ...state,
           tanks: state.tanks.map((tank) =>
-            tank === currentPlayerTank ? { ...currentPlayerTank, position: newPosition } : tank
+            tank === currentPlayerTank
+              ? { ...currentPlayerTank, position: newPosition, lastMoveTime: new Date().getTime() }
+              : tank
           ),
         };
       } else {
         return {
           ...state,
           tanks: state.tanks.map((tank) =>
-            tank === currentPlayerTank ? { ...currentPlayerTank, direction: action.direction } : tank
+            tank === currentPlayerTank
+              ? { ...currentPlayerTank, direction: action.direction, lastMoveTime: new Date().getTime() }
+              : tank
           ),
         };
       }

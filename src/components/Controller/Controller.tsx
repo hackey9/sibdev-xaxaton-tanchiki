@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 
-import { TriangleArrowIcon } from '../../assets/icons';
+import { TargetIcon, TriangleArrowIcon } from '../../assets/icons';
 import { MAP_WIDTH } from '../../consts';
 import { Directions } from '../../types/Tank';
 
@@ -49,7 +49,7 @@ const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
   return (
     <form className={style.controller} style={{ maxWidth: MAP_WIDTH }}>
       <button className={style.fireButton} type="button" onClick={onFire}>
-        fire
+        <TargetIcon />
       </button>
       <div className={style.stickWrapper}>
         <button type="button" onClick={() => onMove(Directions.up)} className={classNames(style.button, style.up)}>

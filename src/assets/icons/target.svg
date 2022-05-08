@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="32" height="32" viewBox="0 0 256 256" xml:space="preserve">
+<desc>Created with Fabric.js 1.7.22</desc>
+<defs>
+</defs>
+<g transform="translate(128 128) scale(0.72 0.72)" style="">
+	<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
+	<path d="M 90 42 h -6.607 C 81.933 23.148 66.852 8.067 48 6.606 V 0 h -6 v 6.606 C 23.148 8.067 8.067 23.148 6.606 42 H 0 v 6 h 6.606 C 8.067 66.852 23.148 81.933 42 83.393 V 90 h 6 v -6.607 C 66.852 81.933 81.933 66.852 83.393 48 H 90 V 42 z M 48 77.378 v -6.334 h -6 v 6.334 C 26.458 75.949 14.051 63.542 12.622 48 h 6.334 v -6 h -6.334 C 14.051 26.458 26.458 14.051 42 12.622 v 6.334 h 6 v -6.334 C 63.542 14.051 75.949 26.458 77.378 42 h -6.334 v 6 h 6.334 C 75.949 63.542 63.542 75.949 48 77.378 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	<polygon points="57,42 48,42 48,33 42,33 42,42 33,42 33,48 42,48 42,57 48,57 48,48 57,48 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+</g>
+</g>
+</svg>

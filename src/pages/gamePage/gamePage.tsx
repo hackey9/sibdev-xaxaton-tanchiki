@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react';
 
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
+import HealthsBar from '../../components/HealthsBar';
 import Wall from '../../components/wall/wall';
 import { IServer } from '../../model/client-server';
 import { Directions } from '../../types/Tank';
@@ -26,8 +27,8 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
   return (
     <main className={style.main}>
       <div className={style.mainMap}>
-        <svg viewBox="0 0 17 17" height={400} width={400} xmlns="http://www.w3.org/2000/svg">
-          <rect height="80%" width="80%" fill="black" />
+        <svg viewBox="0 0 17 17" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect height="100%" width="100%" fill="black" />
 
           {blocks
             .filter(({ destroyable }) => destroyable)
@@ -59,7 +60,7 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
             <Wall x={0} y={index} />
           ))}
         </svg>
-
+        <HealthsBar health={tanks[0].health} />
         <Controller onFire={onFire} onMove={onMove} />
       </div>
     </main>
