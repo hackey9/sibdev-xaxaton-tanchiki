@@ -14,16 +14,21 @@ export interface IServer {
 export class RemoteServer implements IServer {
   private readonly peer: PlayerConnection<TPlayerAction, TServerResponse>;
   state: TGameState;
+  connectedPromise: Promise<void>;
+
+  onConnect?: VoidFunction;
 
   constructor(peer: PlayerConnection<TPlayerAction, TServerResponse>) {
     makeObservable(this, {
       state: observable,
+      onConnect: observable,
       onMessage: action.bound,
     });
 
     this.peer = peer;
     this.state = this.getInitialGameState();
     this.peer.onMessage = this.onMessage;
+    this.connectedPromise = this.peer.connectedPromise;
   }
 
   private getInitialGameState(): TGameState {
@@ -87,7 +92,7 @@ export class LocalServer implements IServer {
 
 class RemoteClient {
   private readonly localServer: LocalServer;
-  private readonly peer: PlayerConnection<TServerResponse, TPlayerAction>;
+  readonly peer: PlayerConnection<TServerResponse, TPlayerAction>;
   private readonly playerId: string;
 
   constructor(localServer: LocalServer, playerId: string, peer: PlayerConnection<TServerResponse, TPlayerAction>) {

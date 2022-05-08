@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { OnResultFunction, QrReader } from 'react-qr-reader';
 
@@ -10,14 +11,14 @@ type ClientConnectionPageProps = {
   handleReturn: VoidFunction;
 };
 
-const ClientConnectionPage: FC<ClientConnectionPageProps> = ({ handleQRResult, handleReturn }) => {
+const ClientConnectionPage: FC<ClientConnectionPageProps> = observer(({ handleQRResult, handleReturn }) => {
   const handleQRReaderResult: OnResultFunction = (result, error) => {
     if (result) {
-      handleQRResult?.(result?.getText());
+      alert(result.getText());
+      handleQRResult(result.getText());
     }
 
     if (error) {
-      // TODO: return
       // alert(error.toString());
     }
   };
@@ -32,10 +33,14 @@ const ClientConnectionPage: FC<ClientConnectionPageProps> = ({ handleQRResult, h
 
         <p>Отсканируйте QR-код создателя игры, чтобы присоединиться к игре.</p>
 
-        <QrReader className={styles.pageQRReader} constraints={{ aspectRatio: 1 }} onResult={handleQRReaderResult} />
+        <QrReader
+          className={styles.pageQRReader}
+          constraints={{ aspectRatio: 1, facingMode: 'environment' }}
+          onResult={handleQRReaderResult}
+        />
       </div>
     </main>
   );
-};
+});
 
 export default ClientConnectionPage;

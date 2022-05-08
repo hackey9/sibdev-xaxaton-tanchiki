@@ -1,4 +1,4 @@
-export const rtcPeerConfig: RTCConfiguration = { iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }] };
+export const rtcPeerConfig: RTCConfiguration = {} || { iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }] };
 export const rtcDataChannelInit: RTCDataChannelInit = { ordered: true };
 export const rtcDataChannelName = 'data-channel';
 export const rtcOfferOptions: RTCOfferOptions = {};
@@ -8,6 +8,7 @@ export class PlayerConnection<TSend, TReceive> {
   private dataChannel!: RTCDataChannel;
   private iceCandidates: RTCIceCandidate[] = [];
   private gatheringStateReadyPromise!: Promise<void>;
+  connectedPromise!: Promise<void>;
 
   onMessage?: (message: TReceive) => void;
 
@@ -22,6 +23,14 @@ export class PlayerConnection<TSend, TReceive> {
       if (ev.candidate) {
         this.iceCandidates.push(ev.candidate);
       }
+    });
+
+    this.connectedPromise = new Promise<void>((resolve) => {
+      this.connection.addEventListener('connectionstatechange', () => {
+        if (this.connection.connectionState === 'connected') {
+          resolve();
+        }
+      });
     });
 
     this.gatheringStateReadyPromise = new Promise<void>((resolve) => {

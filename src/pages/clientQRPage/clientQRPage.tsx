@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import QRCode from 'react-qr-code';
 
@@ -7,7 +8,7 @@ type ClientQRPageProps = {
   qrValue?: string;
 };
 
-const ClientQRPage: FC<ClientQRPageProps> = ({ qrValue }) => {
+const ClientQRPage: FC<ClientQRPageProps> = observer(({ qrValue }) => {
   return (
     <main className={styles.page}>
       <div className={styles.pageCard}>
@@ -25,6 +26,6 @@ const ClientQRPage: FC<ClientQRPageProps> = ({ qrValue }) => {
       </div>
     </main>
   );
-};
+});
 
 export default ClientQRPage;
