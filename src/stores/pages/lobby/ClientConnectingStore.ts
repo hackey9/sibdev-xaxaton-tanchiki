@@ -8,6 +8,7 @@ import { PagesController } from '../PagesController';
 
 import { ClientLobbyStore } from './ClientLobbyStore';
 
+/** @deprecated */
 export class ClientConnectingStore extends BasePage {
   showAnswerQR: Boolean;
   answerQrCodeString?: string;
@@ -77,7 +78,7 @@ export class ClientConnectingStore extends BasePage {
     }
 
     // 6. создаём сервер
-    this.remoteServer = new RemoteServer(peer);
+    this.remoteServer = new RemoteServer(peer, '');
 
     console.log('connected');
 

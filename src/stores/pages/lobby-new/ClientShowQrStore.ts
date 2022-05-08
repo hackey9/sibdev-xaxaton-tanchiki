@@ -10,10 +10,12 @@ import { PagesController } from '../PagesController';
 export class ClientShowQrStore extends BasePage {
   private readonly peer: PlayerConnection<unknown, unknown>;
   answerQr?: string;
+  private id: string;
 
-  constructor(pages: PagesController, peer: PlayerConnection<unknown, unknown>) {
+  constructor(pages: PagesController, peer: PlayerConnection<unknown, unknown>, id: string) {
     super(pages);
     this.peer = peer;
+    this.id = id;
 
     makeObservable(this, {
       answerQr: observable,
@@ -51,7 +53,7 @@ export class ClientShowQrStore extends BasePage {
       debugger;
     }
 
-    const server = new RemoteServer(this.peer);
+    const server = new RemoteServer(this.peer, this.id);
 
     this.next(new GamePageStore(this.pages, server));
   }

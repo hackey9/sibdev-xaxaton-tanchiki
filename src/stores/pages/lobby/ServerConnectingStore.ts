@@ -56,7 +56,7 @@ export class ServerConnectingStore extends BasePage {
       console.log('оффер и кандидаты от сервера', { offer, ices });
 
       // 3. Создаём QR-код
-      this.qrCodeString = createQrCode<TOfferQrCode>({ offer, ices });
+      this.qrCodeString = createQrCode<TOfferQrCode>({ offer, ices, id: newPlayerId() });
 
       console.log('server created offer & ices');
     } catch (e) {

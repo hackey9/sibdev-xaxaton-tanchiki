@@ -21,7 +21,7 @@ export class ClientScanQrStore extends BasePage {
   }
 
   async *onQrFromServer(qr: string) {
-    const { ices, offer } = parseQrCode<TOfferQrCode>(qr);
+    const { ices, offer, id } = parseQrCode<TOfferQrCode>(qr);
 
     const peer = new PlayerConnection();
     peer.initConnection();
@@ -30,6 +30,6 @@ export class ClientScanQrStore extends BasePage {
     await peer.setIceCandidates(ices);
     yield;
 
-    this.next(new ClientShowQrStore(this.pages, peer));
+    this.next(new ClientShowQrStore(this.pages, peer, id));
   }
 }

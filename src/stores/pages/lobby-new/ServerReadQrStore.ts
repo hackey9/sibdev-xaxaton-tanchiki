@@ -23,7 +23,11 @@ export class ServerReadQrStore extends BasePage {
     });
   }
 
+  flag = false;
+
   async *onQrFromClient(qr: string) {
+    if (this.flag) return;
+    this.flag = true;
     const { ices, answer } = parseQrCode<TAnswerQrCode>(qr);
 
     try {

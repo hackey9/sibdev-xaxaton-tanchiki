@@ -1,3 +1,5 @@
+import { newPlayerId } from '../utils/newPlayerId';
+
 export const rtcPeerConfig: RTCConfiguration = {} || { iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }] };
 export const rtcDataChannelInit: RTCDataChannelInit = { ordered: true };
 export const rtcDataChannelName = 'data-channel';
@@ -13,7 +15,7 @@ export class PlayerConnection<TSend, TReceive> {
   onMessage?: (message: TReceive) => void;
 
   send(message: TSend): void {
-    console.log('$send');
+    console.log('$send', message);
     this.dataChannel.send(JSON.stringify(message));
   }
 
@@ -26,17 +28,31 @@ export class PlayerConnection<TSend, TReceive> {
       }
     });
 
+    const pingChannel = this.connection.createDataChannel(newPlayerId());
+    setInterval(() => {
+      try {
+        pingChannel.send('ping');
+      } catch {}
+    }, 1000);
+
     this.connectedPromise = new Promise<void>((resolve, reject) => {
       this.connection.addEventListener('datachannel', (ev) => {
+        if (ev.channel.label !== rtcDataChannelName) return;
+
+        console.log('!!!!!channel was received');
         this.dataChannel = ev.channel;
         this.dataChannel.onmessage = (ev) => {
+          console.log(ev, this.onMessage);
           this.onMessage?.(JSON.parse(ev.data));
         };
-        console.log('$connected');
-        resolve();
+        // console.log('$connected');
+        // resolve();
       });
       this.connection.addEventListener('connectionstatechange', () => {
         console.log('connectionstatechange', this.connection.connectionState);
+        if (this.connection.connectionState === 'connected') {
+          resolve();
+        }
         if (this.connection.connectionState === 'failed') {
           reject(new Error('Connection status failed'));
         }
@@ -53,8 +69,12 @@ export class PlayerConnection<TSend, TReceive> {
   }
 
   createDataChannel(): void {
-    console.log('$datachannel');
+    console.log('datachannel');
     this.dataChannel = this.connection.createDataChannel(rtcDataChannelName, rtcDataChannelInit);
+    this.dataChannel.onmessage = (ev) => {
+      console.log(ev, this.onMessage);
+      this.onMessage?.(JSON.parse(ev.data));
+    };
   }
 
   async getIceCandidates(): Promise<RTCIceCandidate[]> {

@@ -14,6 +14,7 @@ import { TPlayerAction, TServerResponse } from './messages';
 export interface IServer {
   readonly state: TGameState;
   send(message: TPlayerAction): void;
+  readonly id: string;
 }
 
 export class RemoteServer implements IServer {
@@ -23,8 +24,11 @@ export class RemoteServer implements IServer {
   startedPromise!: Promise<void>;
 
   private readonly resolveStart: VoidFunction;
+  readonly id: string;
 
-  constructor(peer: PlayerConnection<TPlayerAction, TServerResponse>) {
+  constructor(peer: PlayerConnection<TPlayerAction, TServerResponse>, id: string) {
+    this.id = id;
+
     makeObservable(this, {
       state: observable,
       onMessage: action.bound,
@@ -70,6 +74,10 @@ export class LocalServer implements IServer {
   private readonly localPlayerId: string;
   private readonly localPlayerUsername: string;
 
+  get id() {
+    return this.localPlayerId;
+  }
+
   readonly clients: RemoteClient[];
   state: TGameState;
 
@@ -84,6 +92,10 @@ export class LocalServer implements IServer {
       clients: observable,
       state: observable,
     });
+  }
+
+  resetGameState() {
+    this.state = this.getInitialGameState();
   }
 
   private getInitialGameState(): TGameState {
@@ -137,6 +149,7 @@ export class LocalServer implements IServer {
 
   addRemoteClient(playerId: string, peer: PlayerConnection<TServerResponse, TPlayerAction>): void {
     this.clients.push(new RemoteClient(this, playerId, peer));
+    this.resetGameState();
   }
 }
 
@@ -164,6 +177,7 @@ class RemoteClient {
   }
 
   onMessage(action: TPlayerAction) {
+    console.log(action, this.playerId);
     this.localServer.handleActionFrom(this.playerId, action);
   }
 }

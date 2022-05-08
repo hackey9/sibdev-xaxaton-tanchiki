@@ -18,6 +18,7 @@ export class PagesController {
   next(page: BasePage) {
     this.currentPage.dispose();
     this.currentPage = page;
+    console.log('new page', page);
     this.currentPage.init();
   }
 }
