@@ -1,102 +1,93 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { SyntheticEvent } from 'react';
-import { FC } from 'react';
+import { FC, SyntheticEvent } from 'react';
 
 import { TriangleArrowIcon } from '../../assets/icons';
 import { MAP_WIDTH } from '../../consts';
-import { Directions, ITank } from '../../types/Tank';
-import { IBlock } from '../../types/Wall';
+import { Directions } from '../../types/Tank';
 
 import style from './Controller.module.scss';
-
-const MAX_COORD = 14;
 
 export function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-type TObjectsMap = ITank | IBlock;
-
 interface ControllerProps {
-  playerTank: ITank;
-  setPlayerTank: (tank: ITank) => void;
-  objectsMap: TObjectsMap[];
-  onFire: () => void;
+  onFire: VoidFunction;
+  onMove: (direction: Directions) => void;
 }
 
-const Controller: FC<ControllerProps> = observer(({ playerTank, setPlayerTank, objectsMap, onFire }) => {
+const Controller: FC<ControllerProps> = observer(({ onFire, onMove }) => {
   const handleFireButtonClick = (e: SyntheticEvent) => {
     e.preventDefault();
 
     onFire();
   };
 
-  const checkOnObstacle = (nextX: number, nextY: number, direction: Directions) => {
-    if (playerTank.direction !== direction) {
-      return setPlayerTank({
-        ...playerTank,
-        direction,
-      });
-    }
+  // const checkOnObstacle = (nextX: number, nextY: number, direction: Directions) => {
+  //   if (playerTank.direction !== direction) {
+  //     return setPlayerTank({
+  //       ...playerTank,
+  //       direction,
+  //     });
+  //   }
+  //
+  //   const entityWithTheSameCoords = objectsMap.find((tank) => {
+  //     return tank.x === nextX && tank.y === nextY;
+  //   });
+  //
+  //   if (nextX > MAX_COORD || nextY > MAX_COORD || nextX < 0 || nextY < 0 || entityWithTheSameCoords) return;
+  //
+  //   setPlayerTank({
+  //     ...playerTank,
+  //     x: nextX,
+  //     y: nextY,
+  //   });
+  // };
 
-    const entityWithTheSameCoords = objectsMap.find((tank) => {
-      return tank.x === nextX && tank.y === nextY;
-    });
+  // const handleRightMove = () => {
+  // const newXCoord = playerTank.x + 1;
+  // checkOnObstacle(newXCoord, playerTank.y, Directions.right);
+  // };
 
-    if (nextX > MAX_COORD || nextY > MAX_COORD || nextX < 0 || nextY < 0 || entityWithTheSameCoords) return;
+  // const handleLeftMove = () => {
+  // const newXCoord = playerTank.x - 1;
+  // checkOnObstacle(newXCoord, playerTank.y, Directions.left);
+  // };
 
-    setPlayerTank({
-      ...playerTank,
-      x: nextX,
-      y: nextY,
-    });
-  };
+  // const handleUpMove = () => {
+  // const newYCoord = playerTank.y - 1;
+  // checkOnObstacle(playerTank.x, newYCoord, Directions.up);
+  // };
 
-  const handleRightMove = () => {
-    const newXCoord = playerTank.x + 1;
-    checkOnObstacle(newXCoord, playerTank.y, Directions.right);
-  };
+  // const handleDownMove = () => {
+  // const newYCoord = playerTank.y + 1;
+  // checkOnObstacle(playerTank.x, newYCoord, Directions.down);
+  // };
 
-  const handleLeftMove = () => {
-    const newXCoord = playerTank.x - 1;
-    checkOnObstacle(newXCoord, playerTank.y, Directions.left);
-  };
-
-  const handleUpMove = () => {
-    const newYCoord = playerTank.y - 1;
-    checkOnObstacle(playerTank.x, newYCoord, Directions.up);
-  };
-
-  const handleDownMove = () => {
-    const newYCoord = playerTank.y + 1;
-    checkOnObstacle(playerTank.x, newYCoord, Directions.down);
-  };
-
-  useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowUp':
-          handleUpMove();
-          break;
-        case 'ArrowDown':
-          handleDownMove();
-          break;
-        case 'ArrowLeft':
-          handleLeftMove();
-          break;
-        case 'ArrowRight':
-          handleRightMove();
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keyup', handleKeyUp);
-
-    return () => window.removeEventListener('keyup', handleKeyUp);
-  }, [handleUpMove, handleDownMove, handleLeftMove, handleRightMove]);
+  // useEffect(() => {
+  //   const handleKeyUp = (e: KeyboardEvent) => {
+  //     switch (e.key) {
+  //       case 'ArrowUp':
+  //         handleUpMove();
+  //         break;
+  //       case 'ArrowDown':
+  //         handleDownMove();
+  //         break;
+  //       case 'ArrowLeft':
+  //         handleLeftMove();
+  //         break;
+  //       case 'ArrowRight':
+  //         handleRightMove();
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   };
+  //
+  //   window.addEventListener('keyup', handleKeyUp);
+  //
+  //   return () => window.removeEventListener('keyup', handleKeyUp);
+  // }, [handleUpMove, handleDownMove, handleLeftMove, handleRightMove]);
 
   return (
     <form className={style.controller} style={{ maxWidth: MAP_WIDTH }} onSubmit={handleFireButtonClick}>
@@ -104,16 +95,20 @@ const Controller: FC<ControllerProps> = observer(({ playerTank, setPlayerTank, o
         fire
       </button>
       <div className={style.stickWrapper}>
-        <button type="button" onClick={handleUpMove} className={classNames(style.button, style.up)}>
+        <button type="button" onClick={() => onMove(Directions.up)} className={classNames(style.button, style.up)}>
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
-        <button type="button" onClick={handleRightMove} className={classNames(style.button, style.right)}>
+        <button
+          type="button"
+          onClick={() => onMove(Directions.right)}
+          className={classNames(style.button, style.right)}
+        >
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
-        <button type="button" onClick={handleDownMove} className={classNames(style.button, style.down)}>
+        <button type="button" onClick={() => onMove(Directions.down)} className={classNames(style.button, style.down)}>
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
-        <button type="button" onClick={handleLeftMove} className={classNames(style.button, style.left)}>
+        <button type="button" onClick={() => onMove(Directions.left)} className={classNames(style.button, style.left)}>
           <TriangleArrowIcon className={style.arrowIcon} />
         </button>
       </div>

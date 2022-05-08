@@ -1,4 +1,5 @@
 import { MAP_SIZE } from '../consts';
+import { DeepReadonly } from '../declarations';
 import { Directions } from '../types/Tank';
 
 import { TPlayerAction } from './messages';
@@ -28,7 +29,11 @@ export interface IGameStateReducer {
   (state: TGameState, playerId: string, action: TPlayerAction): TGameState;
 }
 
-export function __stubGameStateReducer(state: TGameState, playerId: string, action: TPlayerAction): TGameState {
+export function __stubGameStateReducer(
+  state: DeepReadonly<TGameState> & TGameState,
+  playerId: string,
+  action: TPlayerAction
+): TGameState {
   switch (action.type) {
     case 'fire':
       const tank = state.tanks.find((tank) => tank.playerId === playerId);

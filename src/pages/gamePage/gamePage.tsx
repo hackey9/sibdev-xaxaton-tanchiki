@@ -1,20 +1,21 @@
 import { observer } from 'mobx-react-lite';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { Controller, Tank } from '../../components';
 import BrickWall from '../../components/brickWall/brickWall';
 import Wall from '../../components/wall/wall';
 import { IServer } from '../../model/client-server';
-import { Directions, ITank } from '../../types/Tank';
+import { Directions } from '../../types/Tank';
 
 import style from './gamePage.module.scss';
 
 interface GamePageProps {
   onFire: VoidFunction;
+  onMove: (action: Directions) => void;
   server: IServer;
 }
 
-const GamePage: FC<GamePageProps> = observer(({ onFire, server }) => {
+const GamePage: FC<GamePageProps> = observer(({ onFire, onMove, server }) => {
   const { tanks, blocks } = server.state;
 
   return (
@@ -40,11 +41,9 @@ const GamePage: FC<GamePageProps> = observer(({ onFire, server }) => {
           {new Array(15).fill(0).map((_, index) => (
             <Wall isDestructible={false} x={index} y={15} />
           ))}
-
-          {/*<Tank direction={playerTank.direction} health={playerTank.health} x={playerTank.x} y={playerTank.y} />*/}
         </svg>
 
-        {/*<Controller playerTank={playerTank} setPlayerTank={setPlayerTank} objectsMap={objectsMap} onFire={onFire} />*/}
+        <Controller onFire={onFire} onMove={onMove} />
       </div>
     </main>
   );

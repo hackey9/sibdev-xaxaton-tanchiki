@@ -40,7 +40,7 @@ const renderPageVisitor: IPageVisitor<React.ReactElement> = {
   ),
   withGamePage: (page) => (
     <>
-      <GamePage onFire={page.fire} server={page.server} />
+      <GamePage onFire={page.fire} server={page.server} onMove={page.move} />
     </>
   ),
 };
