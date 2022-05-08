@@ -92,6 +92,48 @@ export function __stubGameStateReducer(
           };
         }
       }
+      break;
+    case 'move':
+      const currentPlayerTank = state.tanks.find((tank) => tank.playerId === playerId);
+
+      if (!currentPlayerTank) {
+        return state;
+      }
+
+      if (action.direction === currentPlayerTank.direction) {
+        const oldPosition = currentPlayerTank.position;
+        let newPosition: { x: number; y: number };
+
+        switch (action.direction) {
+          case Directions.up:
+            newPosition = oldPosition.x <= 0 ? oldPosition : { ...oldPosition, x: oldPosition.x - 1 };
+            break;
+          case Directions.down:
+            newPosition = oldPosition.x >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, x: oldPosition.x + 1 };
+            break;
+          case Directions.left:
+            newPosition = oldPosition.y <= 0 ? oldPosition : { ...oldPosition, y: oldPosition.y - 1 };
+            break;
+          case Directions.right:
+            newPosition = oldPosition.y >= MAP_SIZE - 1 ? oldPosition : { ...oldPosition, y: oldPosition.y + 1 };
+            break;
+        }
+
+        return {
+          ...state,
+          tanks: state.tanks.map((tank) =>
+            tank === currentPlayerTank ? { ...currentPlayerTank, position: newPosition } : tank
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          tanks: state.tanks.map((tank) =>
+            tank === currentPlayerTank ? { ...currentPlayerTank, direction: action.direction } : tank
+          ),
+        };
+      }
+      break;
   }
   return state;
 }
